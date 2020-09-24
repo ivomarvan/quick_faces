@@ -24,7 +24,7 @@ predictor = dlib.shape_predictor(args["shape_predictor"])
 
 # initialize the video stream and allow the cammera sensor to warmup
 print("[INFO] camera sensor warming up...")
-vs = VideoStream(src=0).start()
+vs = VideoStream(src=2).start()
 time.sleep(2.0)
 
 # loop over the frames from the video stream
