@@ -13,10 +13,10 @@ import sys
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '../..'))
 sys.path.append(PROJECT_ROOT)
 
-from src.common_containers import SortedContainer
+from src.utils.common_containers import SortedContainer
 
 class TimeStatisticItem:
 

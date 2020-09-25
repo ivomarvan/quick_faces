@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 __author__ = "Ivo Marvan"
-__email__ = "ivo@wikidi.com"
+__email__ = "ivo@marvan.cz"
 __description__ = '''
 
     K libovolnému řetězci (který obvykle popisuje nějakou konfiguraci) přiřadí křestní jméno ze seznamu.

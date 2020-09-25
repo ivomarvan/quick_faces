@@ -15,7 +15,7 @@ ap.add_argument("-t", "--output", required=True,
 args = vars(ap.parse_args())
 
 # in the iBUG 300-W dataset, each (x, y)-coordinate maps to a specific
-# facial feature (i.e., eye, mouth, nose, etc.) -- in order to train a
+# facial feature (i.e., eye, mouth, nose, etc.) -- in order to train_test a
 # dlib shape predictor on *just* the eyes, we must first define the
 # integer indexes that belong to the eyes
 LANDMARKS = set(list(range(36, 48)))

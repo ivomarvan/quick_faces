@@ -1,6 +1,6 @@
 # USAGE
-# python3 parse_mouth_xml.py --input ibug_300W_large_face_landmark_dataset/labels_ibug_300W_train.xml --output ibug_300W_large_face_landmark_dataset/labels_ibug_300W_train_mouth.xml
-# python3 parse_mouth_xml.py --input ibug_300W_large_face_landmark_dataset/labels_ibug_300W_test.xml --output ibug_300W_large_face_landmark_dataset/labels_ibug_300W_test_mouth.xml
+# python parse_xml.py --input ibug_300W_large_face_landmark_dataset/labels_ibug_300W_train.xml --output ibug_300W_large_face_landmark_dataset/labels_ibug_300W_train_eyes.xml
+# python parse_xml.py --input ibug_300W_large_face_landmark_dataset/labels_ibug_300W_test.xml --output ibug_300W_large_face_landmark_dataset/labels_ibug_300W_test_eyes.xml
 
 # import the necessary packages
 import argparse
@@ -14,8 +14,11 @@ ap.add_argument("-t", "--output", required=True,
 	help="path output data split XML file")
 args = vars(ap.parse_args())
 
-# mouth
-LANDMARKS = set(list(range(49, 66)))
+# in the iBUG 300-W dataset, each (x, y)-coordinate maps to a specific
+# facial feature (i.e., eye, mouth, nose, etc.) -- in order to train a
+# dlib shape predictor on *just* the eyes, we must first define the
+# integer indexes that belong to the eyes
+LANDMARKS = set(list(range(36, 48)))
 
 # to easily parse out the eye locations from the XML file we can
 # utilize regular expressions to determine if there is a 'part'

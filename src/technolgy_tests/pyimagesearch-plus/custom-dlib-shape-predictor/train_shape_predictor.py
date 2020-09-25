@@ -32,7 +32,7 @@ options.tree_depth = 4
 # training data in the order of 1000s of data points
 options.nu = 0.1
 
-# the number of cascades used to train the shape predictor -- this
+# the number of cascades used to train_test the shape predictor -- this
 # parameter has a *dramtic* impact on both the *accuracy* and *output
 # size* of your model; the more cascades you have, the more accurate
 # your model can potentially be, but also the *larger* the output size
@@ -46,7 +46,7 @@ options.cascade_depth = 15
 options.feature_pool_size = 400
 
 # selects best features at each cascade when training -- the larger
-# this value is, the *longer* it will take to train but (potentially)
+# this value is, the *longer* it will take to train_test but (potentially)
 # the more *accurate* your model will be
 options.num_test_splits = 50
 
@@ -67,12 +67,15 @@ options.be_verbose = True
 # number of threads/CPU cores to be used when training -- we default
 # this value to the number of available cores on the system, but you
 # can supply an integer value here if you would like
-options.num_threads = multiprocessing.cpu_count()
+options.num_threads = multiprocessing.cpu_count() - 1
 
 # log our training options to the terminal
-print("[INFO] shape predictor options:")
-print(options)
+print(f'''
+dataset_filename={args["training"]}, 
+predictor_output_filename={args["model"]}, 
+options={options}'''
+)
 
-# train the shape predictor
+# train_test the shape predictor
 print("[INFO] training shape predictor...")
-dlib.train_shape_predictor(args["training"], args["model"], options)
+dlib.train_shape_predictor(dataset_filename=args["training"], predictor_output_filename=args["model"], options=options)

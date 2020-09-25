@@ -1,5 +1,5 @@
 # USAGE
-# python predict_eyes.py --shape-predictor eye_predictor.dat
+# python predict_eyes.py --shape-predictor optimal_eye_predictor.dat
 
 # import the necessary packages
 from imutils.video import VideoStream
