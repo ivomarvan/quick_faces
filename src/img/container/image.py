@@ -29,25 +29,31 @@ class Image:
 
     def __init__(
         self,
-        array: np.array,
+        array: np.ndarray,
         id: Any
     ):
         self._array = array
         self._id = id
         self.history = ImageHistory()
-        self.params = ImageParams()
+        self._params = ImageParams()
 
     def get_array(self):
         return self._array
 
+    def set_array(self, array:np.ndarray):
+        self._array = array
+
     def get_id(self):
         return self._id
+
+    def get_params(self):
+        return self._params
 
     def get_shape(self):
         return self._array.shape
 
     def __str__(self) -> str:
-        return f'img:{self._id}, shape:{self.get_shape()}, {self.history}, {self.params}'
+        return f'img:{self._id}, shape:{self.get_shape()}, {self.history}, {self._params}'
 
 
     def _change_extension(self, path: str, forced_extension: str = None, default_extension = 'jpg' ) -> str:
@@ -79,7 +85,7 @@ class Image:
             array= cv2.imread(path, color_flag),
             id=img_id
         )
-        img.params.add('extension', Image.get_extension(path))
+        img.get_params().add('extension', Image.get_extension(path))
         return img
 
     @classmethod

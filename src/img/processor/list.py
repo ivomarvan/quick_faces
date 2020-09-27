@@ -23,26 +23,27 @@ class ImgListProcessor(ImgProcessorBase):
     '''
     List of processors. Process sequentaly image with all subrocessors int the list.
     '''
-    def __init__(self, name: str, options: dict, processors: [ImgProcessorBase]):
+    def __init__(self, name: str, processors: [ImgProcessorBase], options: dict = {}, level: int = 0):
         super().__init__('list.' + name, options)
         self._processors = processors
+        self._level = level
 
-    def _process_body(self, in_img:Image = None) -> Image:
+    def _process_body(self, img:Image = None) -> Image:
         '''
         @see src.img.processor.base.ImgProcessorBase._process_body
         '''
-        img = in_img
+        img = img
         for processor in self._processors:
             img = processor.process(img)
         return img
 
-    def process(self, in_img: Image) -> Image:
+    def process(self, img: Image) -> Image:
         '''
         Runs _process_body and store item to image history
         '''
-        old_history_before_list = in_img.history
-        in_img.history = ImageHistory()
-        out_image = self._process_body(in_img)
+        old_history_before_list = img.history
+        img.history = ImageHistory(self._level + 1)  # new for list
+        out_image = self._process_body(img)
         if not out_image is None:
             subprocesses_history = out_image.history
             out_image.history = old_history_before_list

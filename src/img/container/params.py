@@ -23,6 +23,12 @@ class ImageParams:
         except KeyError:
             return None
 
+    def copy(self, other_params: 'ImageParams', keys_to_copy: [str]):
+        for key in keys_to_copy:
+            value = other_params.get(key)
+            self.add(key, value)
+
+
     def __str__(self):
         s = f'{self._print_separator}params:'
         for name, value in self._data.items():

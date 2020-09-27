@@ -48,19 +48,6 @@ class ImgSourceDir(ImgSourceBase):
             return None
 
 
-if __name__ == "__main__":
-    # for tests only
-    from src.img.storage.dir import ImgStorageDir
-    source = ImgSourceDir(path='/home/ivo/workspace/x_my_actual/quick_faces/nogit_data/from_herman/img')
-    storage = ImgStorageDir(path='/home/ivo/workspace/x_my_actual/quick_faces/nogit_data/from_herman/img.copy')
-    stop = False
-    while not stop:
-        img = source.process(None)
-        stop = img is None
-        if not stop:
-            storage.process(img)
-            print(img)
-
 
 
 

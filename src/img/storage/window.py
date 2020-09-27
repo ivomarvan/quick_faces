@@ -3,12 +3,13 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Storage for image in directory
+    Show image in cv2 window
     Implements ImgProcessorBase, ImgStorageBase interfaces.
 '''
 
 import sys
 import os
+import cv2
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
@@ -18,18 +19,28 @@ sys.path.append(PROJECT_ROOT)
 from src.img.storage.base import ImgStorageBase
 from src.img.container.image import Image
 
-class ImgStorageDir(ImgStorageBase):
+class ImgStorageWindow(ImgStorageBase):
 
-    def __init__(self, path: str):
-        super().__init__('dir.' + path, {})
-        self._path = path
+    def __init__(self, name: str = ''):
+        super().__init__('window.' + name, {})
 
-    def store(self, img: Image, params = None, extension: str = None) -> bool:
+    def __del__(self):
+        try:
+            cv2.destroyAllWindows()
+        except Exception:
+            pass
+
+    def store(self, img: Image) -> Image:
         '''
         @see src.img.storage.base.ImgStorageBase.store
-
-        extension == None means keep stored extension or use default
+        Show img in window
         '''
-        img.store_to_file(path=self._path, params=params, extension=extension)
-        return img
+        # show the frame
+        cv2.imshow(self._name, img.get_array())
+        key = cv2.waitKey(1) & 0xFF
 
+        # if the `q` key was pressed, break from the loop
+        if key == ord("q"):
+            raise StopIteration()
+            stop = True
+        return img

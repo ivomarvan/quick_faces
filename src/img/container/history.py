@@ -10,10 +10,11 @@ from collections import OrderedDict
 
 class ImageHistory:
 
-    def __init__(self, print_separator: str = '\n\t'):
+    def __init__(self, level: int=0, print_separator: str = '\n\t'):
         self._data = OrderedDict()
-        self._print_separator = print_separator
+        self._print_separator = print_separator + '\t' * level
         self._total_time_ms = 0
+        self._level = level
 
     def add(self, processor_name: str, time_ms: int):
         self._data[processor_name] = time_ms
@@ -24,7 +25,10 @@ class ImageHistory:
         self._total_time_ms += subprocesses_history._total_time_ms
 
     def __str__(self):
-        s = f'{self._print_separator}history:'
+        if self._level <= 0:
+            s = f'{self._print_separator}history:'
+        else:
+            s = ''
         for i, (processor_name, value) in enumerate(self._data.items()):
             if isinstance(value, int):
                 s += f'{self._print_separator}{i:3d}. {processor_name} => {value} ms'
