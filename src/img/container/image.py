@@ -46,6 +46,12 @@ class Image:
     def get_id(self):
         return self._id
 
+    def get_width(self) -> int:
+        return self.get_shape()[1]
+
+    def get_heigth(self) -> int:
+        return self.get_shape()[0]
+
     def get_params(self):
         return self._params
 

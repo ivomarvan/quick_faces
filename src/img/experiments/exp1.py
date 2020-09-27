@@ -16,20 +16,35 @@ sys.path.append(PROJECT_ROOT)
 
 if __name__ == "__main__":
     # for tests only
+    # sources
     from src.img.source.dir import ImgSourceDir
     from src.img.source.camera import Camera
+
+    # storages
     from src.img.storage.dir import ImgStorageDir
+    from src.img.storage.window import ImgStorageWindow
+
+    # preprocessors
     from src.img.processor.resizer import ImgResizeProcessor
     from src.img.processor.decolorizer import ImgDecolorizeProcessor
     from src.img.processor.list import ImgListProcessor
-    from src.img.processor.face_detector.dlib import DlibFaceDetectorImgProcessor
-    from src.img.processor.landmarks_detector.dlib import DlibLandmarksDetectorImgProcessor
+
+    # face
+    from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
+    from src.img.processor.face_detector.cv2_dnn_caffe import Cv2Dnn_CafeeFaceDetectorImgProcessor
+
+    # landmarks
+    from src.img.processor.landmarks_detector.dlib_shape_predictor import DlibLandmarksDetectorImgProcessor
+
+    # markers
     from src.img.processor.marker import ImgMarkerProcessor
-    from src.img.storage.window import ImgStorageWindow
+
+    # statistics
     from src.utils.timeit_stats import TimeStatistics
 
     read_from_camera = True
-    store_to_file = False
+    store_to_file = not read_from_camera
+    show_in_window = True
     log_each_image = False
     log_gobal_statistics = True
     
@@ -43,8 +58,12 @@ if __name__ == "__main__":
     resizer = ImgResizeProcessor(width=400)
     decolorizer = ImgDecolorizeProcessor()
     preprocessor = ImgListProcessor(name='preprocessor', processors=[resizer, decolorizer])
-    face_detector = DlibFaceDetectorImgProcessor()
+    face_detector_Dlib = DlibFaceDetectorImgProcessor(color=(0, 200, 50))
+    face_detector_Cv2Dnn_CafeeFace = Cv2Dnn_CafeeFaceDetectorImgProcessor(color=(255, 10, 10))
+
     landmarks_predictor = DlibLandmarksDetectorImgProcessor('left_face')
+
+
     marker = ImgMarkerProcessor()
     window = ImgStorageWindow('Faces')
 
@@ -59,9 +78,11 @@ if __name__ == "__main__":
                 raise StopIteration()
 
             orig_img = copy(img) # it is funny, it create new img array, but log inforamtions are shared
-            img = preprocessor.process(img)
+            #img = preprocessor.process(img)
 
-            img = face_detector.process(img)
+            img = face_detector_Dlib.process(img)
+            img = face_detector_Cv2Dnn_CafeeFace.process(img)
+
             img = landmarks_predictor.process(img)
 
             marker.set_resize_factor(orig_img, img)
@@ -70,7 +91,8 @@ if __name__ == "__main__":
             if store_to_file:
                 orig_img = storage.process(orig_img)
 
-            orig_img = window.process(orig_img)
+            if show_in_window:
+                orig_img = window.process(orig_img)
 
             # log
             if log_each_image:

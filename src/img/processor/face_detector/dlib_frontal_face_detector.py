@@ -18,15 +18,18 @@ sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
 from src.img.processor.base import ImgProcessorBase
+from src.img.processor.face_detector.decorator import FaceDetectorDecorator
 
-class DlibFaceDetectorImgProcessor(ImgProcessorBase):
+class DlibFaceDetectorImgProcessor(ImgProcessorBase, FaceDetectorDecorator):
 
-    def __init__(self):
-        super().__init__('dlib_face_detector')
+    def __init__(self, color: tuple = (0, 255, 0)):
+        super().__init__('dlib_frontal_face_detector')
+        self._color = color
+        self.add_not_none_option('color', color)
         self._detector = dlib.get_frontal_face_detector()
 
 
     def _process_body(self, img: Image = None) -> Image:
         faces = self._detector(img.get_array(), 0)
-        img.get_params().add('faces', faces)
+        self._add_faces(img, faces)
         return img

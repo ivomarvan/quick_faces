@@ -8,14 +8,17 @@ __description__ = '''
 '''
 from typing import Any
 
+
+
 class ImageParams:
 
     def __init__(self, print_separator: str = '\n\t'):
         self._data = {}
         self._print_separator = print_separator
 
-    def add(self, name: str, value: Any):
-        self._data[name] = value
+
+    def add(self, key: str, value: Any):
+        self._data[key] = value
 
     def get(self, key: str):
         try:

@@ -19,7 +19,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.train_test.landmarks.sets import LANDMARKS_MODELS
-from src.default_dirs import get_model_filename, get_landmark_filename
+from src.default_dirs import get_model_dlib_shape_predictor_filename, get_landmark_filename
 
 DEFAULT_SHAPE_PREDICTOR_OPTIONS = dlib.shape_predictor_training_options()
 
@@ -80,7 +80,7 @@ class TrainProcess:
         self._options = options
 
     def run(self, model_name):
-        model_filename = get_model_filename(model_name)
+        model_filename = get_model_dlib_shape_predictor_filename(model_name)
         landmark_filename = get_landmark_filename(type='train', model_name=model_name)
         os.makedirs(os.path.dirname(model_filename), exist_ok=True)
         

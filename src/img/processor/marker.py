@@ -21,14 +21,10 @@ from src.img.processor.base import ImgProcessorBase
 
 class ImgMarkerProcessor(ImgProcessorBase):
 
-    def __init__(self, faces_color=(0, 255, 0), landmarks_color=(0, 0, 255), resize_factor: (int, int) = (1,1)):
+    def __init__(self, resize_factor: (int, int) = (1,1)):
         super().__init__('marker')
-        self.faces_color = faces_color
-        self._landmarks_color = landmarks_color
         self._resize_factor = resize_factor
-        # colors are not important params for log
-        # self.add_not_none_option('faces_color', faces_color)
-        # self.add_not_none_option('landmarks_color', landmarks_color)
+        self.add_not_none_option('resize_factor', self._resize_factor)
 
     def set_resize_factor(self, orig_img:Image, work_img:Image):
         '''
@@ -47,7 +43,7 @@ class ImgMarkerProcessor(ImgProcessorBase):
         self._resize_factor = w_orig / w_work, h_orig / h_work
 
     def _process_body(self, img: Image = None) -> Image:
-        faces = img.get_params().get('faces')
+
         mx, my = self._resize_factor
 
         def r_x(x: int) -> int:
@@ -56,15 +52,20 @@ class ImgMarkerProcessor(ImgProcessorBase):
         def r_y(y: int) -> int:
             return int(round(my * y, 0))
 
-        if faces:
-            for rect in faces:
-                (x, y, w, h) = face_utils.rect_to_bb(rect)
-                cv2.rectangle(img.get_array(), ( r_x(x),  r_y(y)), (r_x(x + w),  r_y(y + h)), self.faces_color, 2)
-        faces_landmarks = img.get_params().get('landmarks')
-        if faces_landmarks:
-            for landmarks in faces_landmarks:
-                shape = face_utils.shape_to_np(landmarks)
-                for (sX, sY) in shape:
-                    cv2.circle(img.get_array(), (r_x(sX), r_y(sY)), 1, self._landmarks_color, -1)
+        faces_dir = img.get_params().get('faces')
+        landmarks_dir = img.get_params().get('landmarks')
+        if faces_dir:
+            for face_processor_name, faces_dir1 in faces_dir.items():
+                for face in faces_dir1['rectangles']:
+                    (x, y, w, h) = face_utils.rect_to_bb(face)
+                    cv2.rectangle(img.get_array(), ( r_x(x),  r_y(y)), (r_x(x + w),  r_y(y + h)), faces_dir1['color'], 2)
+
+                if landmarks_dir:
+                    landmarks_dir1 = landmarks_dir[face_processor_name]
+                    for landmarks in landmarks_dir1['landmarks']:
+                        shape = face_utils.shape_to_np(landmarks)
+                        for (sX, sY) in shape:
+                            cv2.circle(img.get_array(), (r_x(sX), r_y(sY)), 3, faces_dir1['color'], 2)
+                            cv2.circle(img.get_array(), (r_x(sX), r_y(sY)), 2 - 1, landmarks_dir1['color'], -1)
 
         return img

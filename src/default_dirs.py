@@ -26,5 +26,14 @@ DEFAULT_MODEL_DIR = os.path.join(NOGIT_DATA, 'models')
 def get_landmark_filename(type: str,  model_name: str, out_dir: str = DEFAULT_LANDMARK_DIR) -> str:
     return os.path.join(out_dir, f'labels_ibug_300W_{type}_{model_name}.xml')
 
-def get_model_filename(model_name: str) -> str:
-    return os.path.join(DEFAULT_MODEL_DIR, f'predictor_model_{model_name}.dat')
+def get_model_dlib_shape_predictor_filename(model_name: str) -> str:
+    return os.path.join(DEFAULT_MODEL_DIR, 'dlib_shape_predictor', f'predictor_model_{model_name}.dat')
+
+
+def get_model_cv2_dnn_cafee_filename() -> (str, str):
+    '''
+    Model from From https://github.com/vardanagarwal/Proctoring-AI/blob/master/face_detection/models/res10_300x300_ssd_iter_140000.caffemodel
+    '''
+    path = os.path.join(DEFAULT_MODEL_DIR, 'cv2_dnn_cafee')
+    return os.path.join(path, 'res10_300x300_ssd_iter_140000.caffemodel'), os.path.join(path, 'deploy.prototxt.txt')
+
