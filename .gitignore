@@ -108,7 +108,6 @@ venv.bak/
 nogit_data/
 
 .idea/
-__init__.py
 
 .directory
 *.csv
