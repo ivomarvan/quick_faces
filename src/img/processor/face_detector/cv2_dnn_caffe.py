@@ -26,7 +26,7 @@ from src.img.processor.face_detector.decorator import FaceDetectorDecorator
 class Cv2Dnn_CafeeFaceDetectorImgProcessor(ImgProcessorBase, FaceDetectorDecorator):
 
     def __init__(self, find_best: bool = True, color: tuple = (0, 255, 0)):
-        super().__init__('face_detector(cv2_dnn_caffee_res10_300x300_ssd_iter_140000)')
+        super().__init__('face_detector.cv2_dnn_caffee_res10_300x300_ssd_iter_140000')
         self._find_best = find_best
         model_filename, config_filename = get_model_cv2_dnn_cafee_filename()
         self._net = dnn.readNetFromCaffe(config_filename, model_filename)

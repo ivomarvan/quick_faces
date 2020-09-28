@@ -10,7 +10,6 @@ import os
 import dlib
 
 
-
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..', '..'))
@@ -18,17 +17,13 @@ sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
 
+# @todo Refactor to predseccor of all face_detectors
 class FaceDetectorDecorator:
 
     def _add_faces(self, img: Image, rectangles: dlib.rectangles):
-        params = img.get_params()
-        old_faces_params = params.get('faces')
-        if old_faces_params is None:
-            old_faces_params = {}
-        old_faces_params[self._name] = {
-            'rectangles': rectangles,
-            'color': self._color
-        }
-        params.add('faces', old_faces_params)
+        results = img.get_results()
+        results.add(self._name, 'faces', rectangles)
+        results.add(self._name, 'color', self._color)
+
 
 

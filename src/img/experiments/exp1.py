@@ -45,7 +45,7 @@ if __name__ == "__main__":
     read_from_camera = True
     store_to_file = not read_from_camera
     show_in_window = True
-    log_each_image = False
+    log_each_image = True
     log_gobal_statistics = True
     
     if read_from_camera:
@@ -61,7 +61,8 @@ if __name__ == "__main__":
     face_detector_Dlib = DlibFaceDetectorImgProcessor(color=(0, 200, 50))
     face_detector_Cv2Dnn_CafeeFace = Cv2Dnn_CafeeFaceDetectorImgProcessor(color=(255, 10, 10))
 
-    landmarks_predictor = DlibLandmarksDetectorImgProcessor('left_face')
+    left_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('left_face', color=(10,10,255))
+    right_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('right_face' , color=(100,100,255))
 
 
     marker = ImgMarkerProcessor()
@@ -82,8 +83,12 @@ if __name__ == "__main__":
 
             img = face_detector_Dlib.process(img)
             img = face_detector_Cv2Dnn_CafeeFace.process(img)
+            print(img)
+            print('='*50)
+            print(img.get_results().get_results_with_given_result_name('faces'))
+            continue
 
-            img = landmarks_predictor.process(img)
+            img = left_face_landmarks_predictor.process(img)
 
             marker.set_resize_factor(orig_img, img)
             orig_img = marker.process(orig_img)

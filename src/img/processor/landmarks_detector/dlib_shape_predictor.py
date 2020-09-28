@@ -8,7 +8,6 @@ __description__ = '''
 import sys
 import os
 import dlib
-from imutils import face_utils
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
@@ -28,18 +27,27 @@ class DlibLandmarksDetectorImgProcessor(ImgProcessorBase):
         self._predictor = dlib.shape_predictor(get_model_dlib_shape_predictor_filename(model_name))
 
     def _process_body(self, img: Image = None) -> Image:
-        # @dodo oprav pro více landmarks_processorů
-        landmarks_dir = {}
-        faces_dir = img.get_params().get('faces')
-        if faces_dir:
-            for face_processor_name, faces_dir1 in faces_dir.items():
+        img_results = img.get_results()
+        # for all faces from all face_processors
+        faces_results = img_results.get_results_with_given_result_name('faces')
+        if faces_results:
+            for face_processor_name, face_processor_results in faces_results.items():
+                # for one face processor
                 landmarks = []
+                for face in face_processor_results['face']:
+                    face_landmarks = self._predictor(img.get_array(), face)
+                    landmarks.append(face_landmarks)
+
+                img_results.add(self.name, 'landmarks', landmarks)
+                
+
+
+
                 landmarks_dir[face_processor_name] = {
                     'landmarks': landmarks,
                     'color': self._color
                 }
                 for face in faces_dir1['rectangles']:
-                    face_landmarks = self._predictor(img.get_array(), face)
-                    landmarks.append(face_landmarks)
-            img.get_params().add('landmarks', landmarks_dir)
+
+            img.get_results().add('landmarks', landmarks_dir)
         return img

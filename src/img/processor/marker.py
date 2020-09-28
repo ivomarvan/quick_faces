@@ -52,8 +52,8 @@ class ImgMarkerProcessor(ImgProcessorBase):
         def r_y(y: int) -> int:
             return int(round(my * y, 0))
 
-        faces_dir = img.get_params().get('faces')
-        landmarks_dir = img.get_params().get('landmarks')
+        faces_dir = img.get_results().get('faces')
+        landmarks_dir = img.get_results().get('landmarks')
         if faces_dir:
             for face_processor_name, faces_dir1 in faces_dir.items():
                 for face in faces_dir1['rectangles']:
