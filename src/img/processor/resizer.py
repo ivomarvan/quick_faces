@@ -18,9 +18,10 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
-from src.img.processor.base import ImgProcessorBase
+from src.img.processor.processor import ImgProcessor
+from src.img.container.result import ImageProcessorResult
 
-class ImgResizeProcessor(ImgProcessorBase):
+class ImgResizeProcessor(ImgProcessor):
 
     def __init__(self, width=None, height=None, inter=cv2.INTER_AREA):
         super().__init__('resize')
@@ -37,4 +38,4 @@ class ImgResizeProcessor(ImgProcessorBase):
                 inter=self.get_option('inter'),
             )
         )
-        return img
+        return img, ImageProcessorResult(self)

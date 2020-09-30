@@ -17,9 +17,9 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
-from src.img.processor.base import ImgProcessorBase
+from src.img.processor.processor import ImgProcessor
 
-class ImgMarkerProcessor(ImgProcessorBase):
+class ImgMarkerProcessor(ImgProcessor):
 
     def __init__(self, resize_factor: (int, int) = (1,1)):
         super().__init__('marker')

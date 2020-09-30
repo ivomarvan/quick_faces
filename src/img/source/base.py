@@ -16,9 +16,10 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
-from src.img.processor.base import ImgProcessorBase
+from src.img.processor.processor import ImgProcessor
+from src.img.container.result import ImageProcessorResult
 
-class ImgSourceBase(ImgProcessorBase):
+class ImgSourceBase(ImgProcessor):
 
     def __init__(self, name: str, options: dict = {}):
         super().__init__('source.' + name, options)
@@ -37,4 +38,4 @@ class ImgSourceBase(ImgProcessorBase):
         raise NotImplemented(f'Do not use instance of interface: "{self.__class__.__name__}"')
 
     def _process_body(self, img:Image = None) -> Image:
-        return self.get_next_image()
+        return self.get_next_image(), ImageProcessorResult(self)

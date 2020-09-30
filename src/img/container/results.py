@@ -3,38 +3,38 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Container for results of img.processor.
+    Container for results of all img.processors.
     When a processor processes an image, it adds found results like faces, landmarks etc.
 '''
 
-from typing import Any
-from collections import OrderedDict
+import sys
+import os
+
+# root of project repository
+THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
+sys.path.append(PROJECT_ROOT)
+
+
+from src.img.container.result import ImageProcessorResult
 
 
 class ImageProcessorResults:
 
     def __init__(self):
-        self._data = OrderedDict()
+        self._results_by_history = []
+        self._total_time_ms = 0
 
-    def add(self, processor_name: str, param_name: str, value: Any):
-        try:
-            processor_results = self._data[processor_name]
-        except KeyError:
-            processor_results = self._data[processor_name] = OrderedDict()
-        processor_results[param_name] = {param_name: value}
+    def add(self, result: ImageProcessorResult):
+        self._results_by_history.append(result)
+        self._total_time_ms += result.get_time_ms()
 
-
-    def get_results_with_given_result_name(self, param_name: str):
-        ret = OrderedDict()
-        for processor_name, processor_results in self._data.items():
-            if param_name in processor_results:
-                ret[processor_name] = processor_results
-        return ret
+    def get_results_for_processor_super_class(self, superclass) -> [ImageProcessorResult]:
+        return [result for result in self._results_by_history if isinstance(result, superclass)]
 
     def __str__(self):
-        s = f'\n\tparams:'
-        for processor_name, results_dir in self._data.items():
-            s += f'\n\tprocessor:{processor_name} => '
-            for parametr_name, results in results_dir.items():
-                s += f'\n\t\t{parametr_name} : {results}'
+        s = f'\nresults:'
+        for i, result in enumerate(self._results_by_history):
+            s += f'\n\t{i:3d}.: \t{result}'
+        s += f'\n\ttotal time: {self._total_time_ms} ms'
         return s

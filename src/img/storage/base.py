@@ -17,10 +17,10 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 
-from src.img.processor.base import ImgProcessorBase
+from src.img.processor.processor import ImgProcessor
 from src.img.container.image import Image
 
-class ImgStorageBase(ImgProcessorBase):
+class ImgStorageBase(ImgProcessor):
 
     def __init__(self, name: str, options: dict = {}):
         super().__init__('storage.' + name, options)

@@ -16,7 +16,6 @@ THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
-from src.img.container.history import ImageHistory
 from src.img.container.results import ImageProcessorResults
 
 class Image:
@@ -34,7 +33,6 @@ class Image:
     ):
         self._array = array
         self._id = id
-        self.history = ImageHistory()
         self._results = ImageProcessorResults()
 
     def get_array(self):
@@ -59,7 +57,7 @@ class Image:
         return self._array.shape
 
     def __str__(self) -> str:
-        return f'img:{self._id}, shape:{self.get_shape()}, {self.history}, {self._results}'
+        return f'img:{self._id}, shape:{self.get_shape()}, {self._results}'
 
 
     def _change_extension(self, path: str, forced_extension: str = None, default_extension = 'jpg' ) -> str:
@@ -91,7 +89,6 @@ class Image:
             array= cv2.imread(path, color_flag),
             id=img_id
         )
-        img.get_results().add('extension', Image.get_extension(path))
         return img
 
     @classmethod

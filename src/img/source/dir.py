@@ -43,7 +43,9 @@ class ImgSourceDir(ImgSourceBase):
         '''
         try:
             id, path = next(self._get_files())
-            return Image.read_from_file(path=path, color_flag=self._color_flag, img_id = id)
+            img =  Image.read_from_file(path=path, color_flag=self._color_flag, img_id = id)
+            self.add_not_none_option('extension', Image.get_extension(path))
+            return img
         except StopIteration:
             return None
 

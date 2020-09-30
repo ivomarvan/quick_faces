@@ -4,7 +4,7 @@ __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
     Show image in cv2 window
-    Implements ImgProcessorBase, ImgStorageBase interfaces.
+    Implements ImgProcessor, ImgStorageBase interfaces.
 '''
 
 import sys

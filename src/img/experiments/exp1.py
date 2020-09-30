@@ -27,11 +27,12 @@ if __name__ == "__main__":
     # preprocessors
     from src.img.processor.resizer import ImgResizeProcessor
     from src.img.processor.decolorizer import ImgDecolorizeProcessor
-    from src.img.processor.list import ImgListProcessor
+
 
     # face
+    from src.img.processor.face_detector.result import FaceDetectorResult
     from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
-    from src.img.processor.face_detector.cv2_dnn_caffe import Cv2Dnn_CafeeFaceDetectorImgProcessor
+    from src.img.processor.face_detector.cv2_dnn_caffe import Cv2DnnCafeeFaceDetector
 
     # landmarks
     from src.img.processor.landmarks_detector.dlib_shape_predictor import DlibLandmarksDetectorImgProcessor
@@ -42,7 +43,7 @@ if __name__ == "__main__":
     # statistics
     from src.utils.timeit_stats import TimeStatistics
 
-    read_from_camera = True
+    read_from_camera = False
     store_to_file = not read_from_camera
     show_in_window = True
     log_each_image = True
@@ -55,15 +56,15 @@ if __name__ == "__main__":
 
     if store_to_file:
         storage = ImgStorageDir(path='/home/ivo/workspace/x_my_actual/quick_faces/nogit_data/from_herman/img.copy')
+
     resizer = ImgResizeProcessor(width=400)
     decolorizer = ImgDecolorizeProcessor()
-    preprocessor = ImgListProcessor(name='preprocessor', processors=[resizer, decolorizer])
+
     face_detector_Dlib = DlibFaceDetectorImgProcessor(color=(0, 200, 50))
-    face_detector_Cv2Dnn_CafeeFace = Cv2Dnn_CafeeFaceDetectorImgProcessor(color=(255, 10, 10))
+    face_detector_Cv2Dnn_CafeeFace = Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
 
     left_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('left_face', color=(10,10,255))
     right_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('right_face' , color=(100,100,255))
-
 
     marker = ImgMarkerProcessor()
     window = ImgStorageWindow('Faces')
@@ -78,17 +79,20 @@ if __name__ == "__main__":
             if img is None:
                 raise StopIteration()
 
-            orig_img = copy(img) # it is funny, it create new img array, but log inforamtions are shared
-            #img = preprocessor.process(img)
+            orig_img = copy(img) # It is funny, it create new img array, but log inforamtion are shared.
+
+            #img = resizer.process(img)
+            #img = decolorizer.process(img)
 
             img = face_detector_Dlib.process(img)
             img = face_detector_Cv2Dnn_CafeeFace.process(img)
-            print(img)
-            print('='*50)
-            print(img.get_results().get_results_with_given_result_name('faces'))
-            continue
 
             img = left_face_landmarks_predictor.process(img)
+
+            print(img)
+            print('=' * 50)
+            print(img.get_results().get_results_for_processor_super_class(FaceDetectorResult))
+            exit()
 
             marker.set_resize_factor(orig_img, img)
             orig_img = marker.process(orig_img)

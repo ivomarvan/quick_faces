@@ -18,14 +18,14 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
-from src.img.processor.base import ImgProcessorBase
+from src.img.processor.processor import ImgProcessor
+from src.img.container.result import ImageProcessorResult
 
-class ImgDecolorizeProcessor(ImgProcessorBase):
+class ImgDecolorizeProcessor(ImgProcessor):
 
     def __init__(self, code=cv2.COLOR_BGR2GRAY):
         super().__init__('decolorize')
         self.add_not_none_option('code', code)
-
 
     def _process_body(self, img: Image = None) -> Image:
         img.set_array(
@@ -34,4 +34,4 @@ class ImgDecolorizeProcessor(ImgProcessorBase):
                 code=self.get_option('code')
             )
         )
-        return img
+        return img, ImageProcessorResult(self)
