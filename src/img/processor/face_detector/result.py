@@ -27,7 +27,14 @@ class FaceDetectorResult(ImageProcessorResult):
     def get_rectangles(self) -> [Rectangle]:
         return self._rectangles
 
+    def get_rectangle(self, index:int) -> Rectangle:
+        try:
+            return self._rectangles[index]
+        except IndexError:
+            return None
+
     def __str__(self):
         s = super(FaceDetectorResult, self).__str__()
-        s += f'\n\t\tfaces: {self.get_rectangles()}'
+        s += f'\n\t\tfaces: {[str(r) for r in self.get_rectangles()]}'
         return s
+

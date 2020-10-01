@@ -9,7 +9,6 @@ import sys
 import os
 import numpy as np
 import cv2, cv2.dnn as dnn
-import dlib
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
