@@ -57,7 +57,7 @@ if __name__ == "__main__":
     if store_to_file:
         storage = ImgStorageDir(path='/home/ivo/workspace/x_my_actual/quick_faces/nogit_data/from_herman/img.copy')
 
-    resizer = ImgResizeProcessor(width=400)
+    #resizer = ImgResizeProcessor(width=400)
     decolorizer = ImgDecolorizeProcessor()
 
     face_detector_Dlib = DlibFaceDetectorImgProcessor(color=(0, 200, 50))
@@ -89,12 +89,9 @@ if __name__ == "__main__":
 
             img = left_face_landmarks_predictor.process(img)
 
-            print(img)
-            print('=' * 50)
-            print(img.get_results().get_results_for_processor_super_class(FaceDetectorResult))
-            exit()
 
             marker.set_resize_factor(orig_img, img)
+
             orig_img = marker.process(orig_img)
 
             if store_to_file:

@@ -21,8 +21,8 @@ from src.img.container.result import ImageProcessorResult
 
 class ImgSourceBase(ImgProcessor):
 
-    def __init__(self, name: str, options: dict = {}):
-        super().__init__('source.' + name, options)
+    def __init__(self, name: str):
+        super().__init__('source.' + name)
 
     def init_hardware(self, *args, **kwargs):
         '''

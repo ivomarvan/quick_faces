@@ -22,7 +22,7 @@ from src.img.container.image import Image
 class ImgStorageWindow(ImgStorageBase):
 
     def __init__(self, name: str = ''):
-        super().__init__('window.' + name, {})
+        super().__init__('window.' + name)
 
     def __del__(self):
         try:

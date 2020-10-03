@@ -15,15 +15,16 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..', '..'
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.result import ImageProcessorResult
-from src.img.container.geometry import Point
+from src.img.container.geometry import Point, Rectangle
 from src.img.processor.processor import ImgProcessor
 from src.img.processor.face_detector.result import FaceDetectorResult
 
 class FaceLandmarsks:
 
-    def __init__(self, face_result: FaceDetectorResult, landmarks: [Point]):
+    def __init__(self, face_result: FaceDetectorResult, landmarks: [Point], face_index:int):
         self._face_result = face_result
         self._landmarks = landmarks
+        self._face_index = face_index
 
     def get_face_result(self) -> FaceDetectorResult:
         return self._face_result
@@ -31,9 +32,15 @@ class FaceLandmarsks:
     def get_landmarks(self) -> [Point]:
         return self._landmarks
 
+    def get_face_index(self) -> int:
+        return self._face_index
+
+    def get_actual_face(self) -> Rectangle:
+        return self.get_face_result().get_rectangles()[self.get_face_index()]
+
     def __str__(self):
         s = f'\n\t\tlandmarks: {self.get_landmarks()}'
-        s += f'\n\t\t\tfor face: {self.get_face_result()}'
+        s += f'\n\t\t\tfor face: {self.get_face_index()}:{self.get_actual_face()} - {self.get_face_result().get_processor().get_name()}'
         return s
 
 class LandmarksDetectorResult(ImageProcessorResult):

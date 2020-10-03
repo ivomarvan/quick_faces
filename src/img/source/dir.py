@@ -21,7 +21,7 @@ from src.img.container.image import Image
 class ImgSourceDir(ImgSourceBase):
 
     def __init__(self, path: str, recursively: bool = True, color_flag: int = cv2.IMREAD_UNCHANGED):
-        super().__init__('dir.' + path, {})
+        super().__init__('dir.' + path)
         self._path = path
         self._len_path1 = len(path) + 1
         self._recursively = recursively

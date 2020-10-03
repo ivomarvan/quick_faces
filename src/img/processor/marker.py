@@ -18,6 +18,7 @@ sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
 from src.img.processor.processor import ImgProcessor
+from src.img.processor.landmarks_detector.result import LandmarksDetectorResult, FaceLandmarsks
 
 class ImgMarkerProcessor(ImgProcessor):
 
@@ -51,6 +52,18 @@ class ImgMarkerProcessor(ImgProcessor):
 
         def r_y(y: int) -> int:
             return int(round(my * y, 0))
+
+        landmark_results = img.get_results().get_results_for_processor_super_class(LandmarksDetectorResult)  # [FaceLandmarsks]
+        for landmark_result in landmark_results: # FaceLandmarsks
+            for face_landmarks in landmark_result.get_face_landmark_couples():
+                landmarks = face_landmarks.get_landmarks()  # [Point]
+                face_result =  face_landmarks.get_face_result()  # FaceDetectorResult
+                face_rectangle = face_landmarks.get_actual_face()
+                print(face_rectangle, landmarks)
+                exit()
+
+
+        faces_results = img.get_results().get_results_for_processor_super_class(FaceDetectorResult)
 
         faces_dir = img.get_results().get('faces')
         landmarks_dir = img.get_results().get('landmarks')

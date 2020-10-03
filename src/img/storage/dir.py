@@ -21,7 +21,7 @@ from src.img.container.image import Image
 class ImgStorageDir(ImgStorageBase):
 
     def __init__(self, path: str):
-        super().__init__('dir.' + path, {})
+        super().__init__('dir.' + path)
         self._path = path
 
     def store(self, img: Image, params = None, extension: str = None) -> bool:

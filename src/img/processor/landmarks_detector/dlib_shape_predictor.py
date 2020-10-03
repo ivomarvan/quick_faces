@@ -36,35 +36,8 @@ class DlibLandmarksDetectorImgProcessor(ImgProcessor):
         face_landmark_couples = []
         for face_result in faces_results:
             faces = face_result.get_rectangles()  # [Rectangle]
-            for face_rectangle in faces:
+            for face_index, face_rectangle in enumerate(faces):
                 landmarks = self._predictor(img.get_array(), face_rectangle.as_dlib_rectangle())
-                face_landmark_couples.append(FaceLandmarsks(face_result=face_result, landmarks=landmarks))
+                face_landmark_couples.append(FaceLandmarsks(face_result=face_result, landmarks=landmarks, face_index=face_index))
         return img, LandmarksDetectorResult(self, face_landmark_couples=face_landmark_couples)
 
-        '''
-        img_results = img.get_results()
-        # for all faces from all face_processors
-        faces_results = img_results.get_results_with_given_result_name('faces')
-        if faces_results:
-            for face_processor_name, face_processor_results in faces_results.items():
-                # for one face processor
-                landmarks = []
-                for face in face_processor_results['face']:
-                    face_landmarks = self._predictor(img.get_array(), face)
-                    landmarks.append(face_landmarks)
-
-                img_results.add(self.name, 'landmarks', landmarks)
-
-
-
-
-                landmarks_dir[face_processor_name] = {
-                    'landmarks': landmarks,
-                    'color': self._color
-                }
-                for face in faces_dir1['rectangles']:
-                    pass
-
-            img.get_results().add('landmarks', landmarks_dir)
-        return img
-        '''

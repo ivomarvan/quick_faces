@@ -22,8 +22,8 @@ from src.img.container.image import Image
 
 class ImgStorageBase(ImgProcessor):
 
-    def __init__(self, name: str, options: dict = {}):
-        super().__init__('storage.' + name, options)
+    def __init__(self, name: str):
+        super().__init__('storage.' + name)
 
     def store(self, img: Image) -> Image:
         '''

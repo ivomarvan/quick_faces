@@ -22,9 +22,9 @@ from src.utils.timeit_stats import TimeStatistics
 
 class ImgProcessor:
 
-    def __init__(self, name: str, options: dict = {}):
+    def __init__(self, name: str):
         self._name = name
-        self._options = options
+        self._options = {}
 
     def get_name(self):
         return self._name
