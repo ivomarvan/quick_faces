@@ -2,7 +2,7 @@
 
 It is a **framework for experiments with computer vision** algorithms.
 
-It is designed for working with faces, but can be use for other types of tasks.
+It is designed for working with faces but can be used for other types of tasks.
 
 ## Licence
 **MIT**
