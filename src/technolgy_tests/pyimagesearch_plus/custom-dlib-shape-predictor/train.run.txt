@@ -1,0 +1,2 @@
+workon dlib_experiments
+time python train_shape_predictor.py --training ../../../../nogit_data/ibug_300W_large_face_landmark_dataset/labels_ibug_300W_train_left_face.xml --model ../../../../nogit_data/models/predictor_model_left_face.presision.dat

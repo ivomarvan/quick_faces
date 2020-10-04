@@ -23,7 +23,7 @@ from src.img.container.geometry import Rectangle
 
 class DlibFaceDetectorImgProcessor(FaceDetector):
 
-    def __init__(self, name: str='dlib_frontal_face_detector', find_best: bool = True, color: tuple = (0, 255, 0)):
+    def __init__(self, name: str='dlib.get_frontal_face_detector', find_best: bool = True, color: tuple = (0, 255, 0)):
         super().__init__(name=name, find_best=find_best, color=color)
         self._detector = dlib.get_frontal_face_detector()
 

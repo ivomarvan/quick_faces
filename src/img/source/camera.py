@@ -20,8 +20,8 @@ from src.img.container.image import Image
 
 class Camera(ImgSourceBase):
 
-    def __init__(self, name: str = '', options: dict = {}):
-        super().__init__('camera.' + name, options)
+    def __init__(self, name: str = ''):
+        super().__init__('camera.' + name)
         self._capture = None
         self._is_adjusted = False
 

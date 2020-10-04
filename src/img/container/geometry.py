@@ -22,7 +22,7 @@ class Point:
         return self.__y
 
     def __str__(self):
-        return f'Point("x={self.x()}", "y={self.y()}")'
+        return f'Point(x={self.x()}, y={self.y()})'
 
 class Rectangle:
 
@@ -55,6 +55,9 @@ class Rectangle:
             x=int(round((self.right_bottom().x() + self.left_top().x() / 2), 0)),
             y=int(round((self.right_bottom().y() + self.left_top().y() / 2), 0))
         )
+
+    def __str__(self):
+        return f'Rectangle(left_top=({self.left_top()}), width={self.width()}, height={self.height()})'
 
     @classmethod
     def crate_from_dlib_rectangle(cls, dlib_rect: dlib.rectangle) -> 'Rectangle':

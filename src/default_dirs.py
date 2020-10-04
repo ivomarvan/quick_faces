@@ -26,8 +26,8 @@ DEFAULT_MODEL_DIR = os.path.join(NOGIT_DATA, 'models')
 def get_landmark_filename(type: str,  model_name: str, out_dir: str = DEFAULT_LANDMARK_DIR) -> str:
     return os.path.join(out_dir, f'labels_ibug_300W_{type}_{model_name}.xml')
 
-def get_model_dlib_shape_predictor_filename(model_name: str) -> str:
-    return os.path.join(DEFAULT_MODEL_DIR, 'dlib_shape_predictor', f'predictor_model_{model_name}.dat')
+def get_model_dlib_shape_predictor_filename(model_filename: str) -> str:
+    return os.path.join(DEFAULT_MODEL_DIR, 'dlib_shape_predictor', model_filename)
 
 
 def get_model_cv2_dnn_cafee_filename() -> (str, str):

@@ -28,7 +28,6 @@ if __name__ == "__main__":
     from src.img.processor.resizer import ImgResizeProcessor
     from src.img.processor.decolorizer import ImgDecolorizeProcessor
 
-
     # face
     from src.img.processor.face_detector.result import FaceDetectorResult
     from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
@@ -43,7 +42,8 @@ if __name__ == "__main__":
     # statistics
     from src.utils.timeit_stats import TimeStatistics
 
-    read_from_camera = False
+    # configuration of inputs/outputs
+    read_from_camera = True
     store_to_file = not read_from_camera
     show_in_window = True
     log_each_image = True
@@ -57,14 +57,16 @@ if __name__ == "__main__":
     if store_to_file:
         storage = ImgStorageDir(path='/home/ivo/workspace/x_my_actual/quick_faces/nogit_data/from_herman/img.copy')
 
-    #resizer = ImgResizeProcessor(width=400)
+    resizer = ImgResizeProcessor(width=400)
     decolorizer = ImgDecolorizeProcessor()
 
     face_detector_Dlib = DlibFaceDetectorImgProcessor(color=(0, 200, 50))
-    face_detector_Cv2Dnn_CafeeFace = Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
+    # face_detector_Cv2Dnn_CafeeFace = Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
 
-    left_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('left_face', color=(10,10,255))
-    right_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('right_face' , color=(100,100,255))
+    # left_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('predictor_model_left_face.dat', color=(10,10,255))
+    left_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('predictor_model_left_face.presision.dat', color=(10, 10, 255))
+    right_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat' , color=(255,100,100))
+    front_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200,200,200))
 
     marker = ImgMarkerProcessor()
     window = ImgStorageWindow('Faces')
@@ -85,9 +87,11 @@ if __name__ == "__main__":
             #img = decolorizer.process(img)
 
             img = face_detector_Dlib.process(img)
-            img = face_detector_Cv2Dnn_CafeeFace.process(img)
+            #img = face_detector_Cv2Dnn_CafeeFace.process(img)
 
             img = left_face_landmarks_predictor.process(img)
+            img = right_face_landmarks_predictor.process(img)
+            img = front_face_landmarks_predictor.process(img)
 
 
             marker.set_resize_factor(orig_img, img)

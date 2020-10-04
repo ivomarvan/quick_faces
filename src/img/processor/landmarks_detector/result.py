@@ -21,7 +21,7 @@ from src.img.processor.face_detector.result import FaceDetectorResult
 
 class FaceLandmarsks:
 
-    def __init__(self, face_result: FaceDetectorResult, landmarks: [Point], face_index:int):
+    def __init__(self, face_result: FaceDetectorResult, landmarks: [Point], face_index: int):
         self._face_result = face_result
         self._landmarks = landmarks
         self._face_index = face_index
@@ -42,6 +42,7 @@ class FaceLandmarsks:
         s = f'\n\t\tlandmarks: {self.get_landmarks()}'
         s += f'\n\t\t\tfor face: {self.get_face_index()}:{self.get_actual_face()} - {self.get_face_result().get_processor().get_name()}'
         return s
+
 
 class LandmarksDetectorResult(ImageProcessorResult):
 

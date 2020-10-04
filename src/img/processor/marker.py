@@ -17,6 +17,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
+from src.img.container.result import ImageProcessorResult
 from src.img.processor.processor import ImgProcessor
 from src.img.processor.landmarks_detector.result import LandmarksDetectorResult, FaceLandmarsks
 
@@ -59,26 +60,24 @@ class ImgMarkerProcessor(ImgProcessor):
                 landmarks = face_landmarks.get_landmarks()  # [Point]
                 face_result =  face_landmarks.get_face_result()  # FaceDetectorResult
                 face_rectangle = face_landmarks.get_actual_face()
-                print(face_rectangle, landmarks)
-                exit()
+                landmarks_color = landmark_result.get_processor().get_option('color')
+                face_color = face_result.get_processor().get_option('color')
 
+                # draw face
+                l_t = face_rectangle.left_top()
+                x1 = l_t.x()
+                y1 = l_t.y()
+                r_b = face_rectangle.right_bottom()
+                x2 = r_b.x()
+                y2 = r_b.y()
+                cv2.rectangle(
+                    img.get_array(),
+                    (r_x(x1), r_y(y1)), (r_x(x2), r_y(y2)), face_color, 2)
 
-        faces_results = img.get_results().get_results_for_processor_super_class(FaceDetectorResult)
+                # draw landmarks
+                for landmark_point in landmarks:
+                    x, y = landmark_point.x(), landmark_point.y()
+                    cv2.circle(img.get_array(), (r_x(x), r_y(y)), 1, face_color, 2)
+                    cv2.circle(img.get_array(), (r_x(x), r_y(y)), 2, landmarks_color, -1)
 
-        faces_dir = img.get_results().get('faces')
-        landmarks_dir = img.get_results().get('landmarks')
-        if faces_dir:
-            for face_processor_name, faces_dir1 in faces_dir.items():
-                for face in faces_dir1['rectangles']:
-                    (x, y, w, h) = face_utils.rect_to_bb(face)
-                    cv2.rectangle(img.get_array(), ( r_x(x),  r_y(y)), (r_x(x + w),  r_y(y + h)), faces_dir1['color'], 2)
-
-                if landmarks_dir:
-                    landmarks_dir1 = landmarks_dir[face_processor_name]
-                    for landmarks in landmarks_dir1['landmarks']:
-                        shape = face_utils.shape_to_np(landmarks)
-                        for (sX, sY) in shape:
-                            cv2.circle(img.get_array(), (r_x(sX), r_y(sY)), 3, faces_dir1['color'], 2)
-                            cv2.circle(img.get_array(), (r_x(sX), r_y(sY)), 2 - 1, landmarks_dir1['color'], -1)
-
-        return img
+        return img, ImageProcessorResult(self)

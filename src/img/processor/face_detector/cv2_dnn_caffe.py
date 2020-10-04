@@ -9,7 +9,6 @@ import sys
 import os
 import numpy as np
 import cv2, cv2.dnn as dnn
-import dlib
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +23,7 @@ from src.img.container.geometry import Point, Rectangle
 
 class Cv2DnnCafeeFaceDetector(FaceDetector):
 
-    def __init__(self, name: str='face_detector.cv2_dnn_caffee', find_best: bool = True, color: tuple = (0, 255, 0)):
+    def __init__(self, name: str='dnn.readNetFromCaffe', find_best: bool = True, color: tuple = (0, 255, 0)):
         super().__init__(name=name, find_best=find_best, color=color)
         model_filename, config_filename = get_model_cv2_dnn_cafee_filename()
         self._net = dnn.readNetFromCaffe(config_filename, model_filename)
