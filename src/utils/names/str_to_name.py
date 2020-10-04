@@ -58,8 +58,8 @@ class StrToName:
 # --- Spustitelná část programu ----------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    from src.ext_lib.py.cmdLine.processor import Processor
-    from src.ext_lib.py.cmdLine.cmdLineParser import CmdLineParser
+    from src.utils.cmdLine.processor import Processor
+    from src.utils.cmdLine.cmdLineParser import CmdLineParser
 
 
     class Program(Processor, CmdLineParser):

@@ -11,7 +11,7 @@ from copy import copy
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, 'img', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 if __name__ == "__main__":
@@ -52,10 +52,10 @@ if __name__ == "__main__":
     if read_from_camera:
         source = Camera()
     else:
-        source = ImgSourceDir(path='/home/ivo/workspace/x_my_actual/quick_faces/nogit_data/from_herman/img')
+        source = ImgSourceDir(path='/nogit_data/from_herman/img')
 
     if store_to_file:
-        storage = ImgStorageDir(path='/home/ivo/workspace/x_my_actual/quick_faces/nogit_data/from_herman/img.copy')
+        storage = ImgStorageDir(path='/nogit_data/from_herman/img.copy')
 
     resizer = ImgResizeProcessor(width=400)
     decolorizer = ImgDecolorizeProcessor()
@@ -110,7 +110,7 @@ if __name__ == "__main__":
             else:
                 if i % 80 == 0:
                     sys.stdout.write('\n')
-                sys.stdout.write('.')
+                sys.stdout.write('img/experiments')
                 sys.stdout.flush()
             i += 1
         except StopIteration:
