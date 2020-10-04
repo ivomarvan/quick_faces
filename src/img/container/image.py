@@ -47,7 +47,7 @@ class Image:
     def get_width(self) -> int:
         return self.get_shape()[1]
 
-    def get_heigth(self) -> int:
+    def get_height(self) -> int:
         return self.get_shape()[0]
 
     def get_results(self) -> ImageProcessorResults:

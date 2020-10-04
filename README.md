@@ -4,7 +4,8 @@ It is a **framework for experiments with computer vision** algorithms.
 
 It is designed for working with faces, but can be use for other types of tasks.
 
-
+## Licence
+**MIT**
 ## Idea
 The idea is to choose for your own experiment:
 1) any of the **inputs** (directory with pictures, camera, video),
@@ -34,10 +35,6 @@ For now, just modify main_example.py and run it:
     - command-line examples
     - configuration file examples
     - How to write your own image processor
-- add **input source**
-    - **video**
-- add **output source**
-    - **video**
 - add different types **of face detectors**
     - **yolo v3**
     - **tracking face detecor** 
@@ -45,5 +42,6 @@ For now, just modify main_example.py and run it:
 - add different types **of landmarks predictors (detectors)**
     - **Combination of 3 shape predictors from library dlib** 
     From models for the whole face and separately user-trained models for the left and right part of the face Select the best in each image.
-- add image processor, wicht adds legend (information about all processes) to the each image    
+- add image processor, wicht adds legend (information about all processes) to the each image
+- and more .... :-)    
     

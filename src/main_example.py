@@ -19,10 +19,12 @@ if __name__ == "__main__":
     # sources
     from src.img.source.dir import ImgSourceDir
     from src.img.source.camera import Camera
+    from src.img.source.video import ImgSourceVideo
 
     # storages
     from src.img.storage.dir import ImgStorageDir
     from src.img.storage.window import ImgStorageWindow
+    from src.img.storage.video import ImgStorageVideo
 
     # preprocessors
     from src.img.processor.resizer import ImgResizeProcessor
@@ -43,19 +45,16 @@ if __name__ == "__main__":
     from src.utils.timeit_stats import TimeStatistics
 
     # configuration of inputs/outputs
-    read_from_camera = True
-    store_to_file = not read_from_camera
-    show_in_window = True
+    show_output_in_window = True
     log_each_image = True
     log_gobal_statistics = True
-    
-    if read_from_camera:
-        source = Camera()
-    else:
-        source = ImgSourceDir(path='/nogit_data/from_herman/img')
 
-    if store_to_file:
-        storage = ImgStorageDir(path='/nogit_data/from_herman/img.copy')
+    # source = ImgSourceVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/video/IMG_8339.MOV'))
+    source = Camera()
+    # source = ImgSourceDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/img'))
+
+    storage = ImgStorageDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/img.copy'))
+    # storage = ImgStorageVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/img.copy/video.mp4'), fps=2)
 
     resizer = ImgResizeProcessor(width=400)
     decolorizer = ImgDecolorizeProcessor()
@@ -98,10 +97,10 @@ if __name__ == "__main__":
 
             orig_img = marker.process(orig_img)
 
-            if store_to_file:
+            if storage:
                 orig_img = storage.process(orig_img)
 
-            if show_in_window:
+            if show_output_in_window:
                 orig_img = window.process(orig_img)
 
             # log
@@ -116,4 +115,7 @@ if __name__ == "__main__":
         except StopIteration:
             stop = True
     if log_gobal_statistics:
+        print()
+        print('===', 'Statistics', '='*60)
         TimeStatistics.print_as_tsv(print_header=True)
+        print('=' * 80)

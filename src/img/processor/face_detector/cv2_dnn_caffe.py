@@ -32,7 +32,7 @@ class Cv2DnnCafeeFaceDetector(FaceDetector):
 
     def _process_body(self, img: Image = None) -> (Image, FaceDetectorResult):
         img_array = img.get_array()
-        h, w = img.get_heigth(), img.get_width()
+        h, w = img.get_height(), img.get_width()
         blob = dnn.blobFromImage(cv2.resize(img_array, (300, 300)), 1.0, (300, 300), (104.0, 117.0, 123.0))
         self._net.setInput(blob)
         faces_coffee = self._net.forward()

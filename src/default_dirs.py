@@ -21,7 +21,7 @@ DEFAULT_LANDMARK_FILES = {
     'train_test': os.path.join(DEFAULT_LANDMARK_DIR, 'labels_ibug_300W_train.xml'),
 }
 
-DEFAULT_MODEL_DIR = os.path.join(NOGIT_DATA, 'models')
+DEFAULT_MODEL_DIR = os.path.join(PROJECT_ROOT, 'models')
 
 def get_landmark_filename(type: str,  model_name: str, out_dir: str = DEFAULT_LANDMARK_DIR) -> str:
     return os.path.join(out_dir, f'labels_ibug_300W_{type}_{model_name}.xml')

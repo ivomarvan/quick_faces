@@ -32,4 +32,3 @@ class ImgStorageDir(ImgStorageBase):
         '''
         img.store_to_file(path=self._path, params=params, extension=extension)
         return img
-
