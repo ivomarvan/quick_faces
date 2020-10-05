@@ -18,7 +18,7 @@ sys.path.append(PROJECT_ROOT)
 from src.img.container.geometry import Point
 from src.img.container.image import Image
 from src.img.processor.processor import ImgProcessor
-from src.default_dirs import get_model_dlib_shape_predictor_filename
+from src.default_dirs import ModelsSource
 from src.img.processor.landmarks_detector.result import LandmarksDetectorResult, FaceLandmarsks
 from src.img.processor.face_detector.result import FaceDetectorResult
 
@@ -43,7 +43,7 @@ class DlibLandmarksDetectorImgProcessor(ImgProcessor):
         super().__init__(f'dlib.shape_predictor({model_filename})')
         self._color = color
         self.add_not_none_option('color', color)
-        self._predictor = dlib.shape_predictor(get_model_dlib_shape_predictor_filename(model_filename))
+        self._predictor = dlib.shape_predictor(ModelsSource.get_model_dlib_shape_predictor_filename(model_filename))
 
 
     def _process_body(self, img: Image = None) -> (Image, LandmarksDetectorResult):

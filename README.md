@@ -23,6 +23,27 @@ There are many published algorithms and here everyone will be able to test them 
 Gradually, I will expand the list of usable processes.
 I hope that it can be useful for testing different algorithms.
 
+## Data
+
+### Images and videos for experiments
+In the root directory of the repository create a directory with name **nogit_data**.
+
+It will be ignored by git.
+
+For example store your images to _nogit_data/from_herman/in_img_ and set storage to output to the _nogit_data/from_herman/out_img_.  
+
+### Models
+
+Models are stored by git with extension **vlf** (Versioning large files https://docs.github.com/en/free-pro-team@latest/github/managing-large-files/versioning-large-files) in the directory `models`.
+There are gzipped.
+
+The framework un-gzip the files automatically to the directory `nogit_data/models_cache`.
+
+## Requirements
+For access to models you need git with extension **vlf** (see https://docs.github.com/en/free-pro-team@latest/github/managing-large-files/installing-git-large-file-storage)
+
+See file **requirements.txt** for python packages.
+
 ## Usage
 For now, just modify main_example.py and run it:
 

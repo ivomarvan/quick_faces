@@ -49,15 +49,15 @@ if __name__ == "__main__":
     log_each_image = True
     log_gobal_statistics = True
 
-    # source = ImgSourceVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/video/IMG_8339.MOV'))
+    # source = ImgSourceVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV'))
     source = Camera()
-    # source = ImgSourceDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/img'))
+    # source = ImgSourceDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'))
 
-    storage = ImgStorageDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/img.copy'))
-    # storage = ImgStorageVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/img.copy/video.mp4'), fps=2)
+    storage = ImgStorageDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'))
+    # storage = ImgStorageVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'), fps=2)
 
-    resizer = ImgResizeProcessor(width=400)
-    decolorizer = ImgDecolorizeProcessor()
+    #resizer = ImgResizeProcessor(width=400)
+    #decolorizer = ImgDecolorizeProcessor()
 
     face_detector_Dlib = DlibFaceDetectorImgProcessor(color=(0, 200, 50))
     # face_detector_Cv2Dnn_CafeeFace = Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
