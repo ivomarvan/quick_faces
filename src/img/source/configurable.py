@@ -15,14 +15,12 @@ sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
 from src.img.processor.processor import ImgProcessor
-from src.img.container.result import ImageProcessorResult
-
 # sources
 from src.img.source.dir import ImgSourceDir
 from src.img.source.camera import Camera
 from src.img.source.video import ImgSourceVideo
 
-class ConfigurableImgSource:
+class ConfigurableImgSource(ImgProcessor):
 
     def __init__(
         self,
@@ -30,6 +28,7 @@ class ConfigurableImgSource:
         path_to_video: str = None,
         range_of_camara_numbers: 'int|[int]|range' = None
     ):
+        super().__init__(name=self.__class__.__name__)
         numer_of_none = 0
         params = [path_to_images, path_to_video, range_of_camara_numbers]
         for param in params:
@@ -48,8 +47,14 @@ class ConfigurableImgSource:
         else:
             raise Exception('Uknown img source')
 
-    def get_image(self) -> Image:
-        return self._source.process(None)
+    def process(self, img: Image = None) -> Image:
+        '''
+        Reimplements method from predcessor.
+        Simple call selected source
+        '''
+        return self._source.process(img)
+
+
 
 
 

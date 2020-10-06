@@ -15,110 +15,66 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, 'img', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 if __name__ == "__main__":
-    # for tests only
-
-    # sources
+    # --- sources ---
     from src.img.source.configurable import ConfigurableImgSource
-
-    # storages
-    from src.img.storage.dir import ImgStorageDir
-    from src.img.storage.window import ImgStorageWindow
-    from src.img.storage.video import ImgStorageVideo
-
-    # preprocessors
-    from src.img.processor.resizer import ImgResizeProcessor
-    from src.img.processor.decolorizer import ImgDecolorizeProcessor
-
-    # face
-    from src.img.processor.face_detector.result import FaceDetectorResult
-    from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
-    from src.img.processor.face_detector.cv2_dnn_caffe import Cv2DnnCafeeFaceDetector
-
-    # landmarks
-    from src.img.processor.landmarks_detector.dlib_shape_predictor import DlibLandmarksDetectorImgProcessor
-
-    # markers
-    from src.img.processor.marker import ImgMarkerProcessor
-
-    # statistics
-    from src.utils.timeit_stats import TimeStatistics
-
     # define source of images
+
     source = ConfigurableImgSource(range_of_camara_numbers=range(0,10))
     # source = ConfigurableImgSource(path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'))
     # source = ConfigurableImgSource(path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV'))
 
-    # configuration of inputs/outputs
-    show_output_in_window = True
-    log_each_image = True
-    log_gobal_statistics = True
+    # --- storages ---
+    from src.img.storage.configurable import ConfigurableImgStorage
+    # You can comment a parametr if you do not use a storage
+    storage = ConfigurableImgStorage(
+        path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
+        # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'),
+        window_name='Debug Window',
+        video_fps=30
+    )
 
+    # --- processors ---
+    processors = []
 
-    # storage = ImgStorageDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'))
-    # storage = ImgStorageVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'), fps=2)
-    storage = None
+    # ------ preprocessors ---
+    from src.img.processor.resizer import ImgResizeProcessor
+    from src.img.processor.decolorizer import ImgDecolorizeProcessor
+    # resizer = ImgResizeProcessor(width=400)
+    # decolorizer = ImgDecolorizeProcessor()
 
-    #resizer = ImgResizeProcessor(width=400)
-    #decolorizer = ImgDecolorizeProcessor()
+    # ------ face detectors ---
+    from src.img.processor.face_detector.result import FaceDetectorResult
+    from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
+    from src.img.processor.face_detector.cv2_dnn_caffe import Cv2DnnCafeeFaceDetector
+    processors += [
+        DlibFaceDetectorImgProcessor(color=(0, 200, 50)),
+        # Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
 
-    face_detector_Dlib = DlibFaceDetectorImgProcessor(color=(0, 200, 50))
-    # face_detector_Cv2Dnn_CafeeFace = Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
+    ]
 
-    # left_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('predictor_model_left_face.dat', color=(10,10,255))
-    left_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('predictor_model_left_face.presision.dat', color=(10, 10, 255))
-    right_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat' , color=(255,100,100))
-    front_face_landmarks_predictor = DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200,200,200))
+    # ------ landmarks ----
+    from src.img.processor.landmarks_detector.dlib_shape_predictor import DlibLandmarksDetectorImgProcessor
+    processors += [
+        # DlibLandmarksDetectorImgProcessor('predictor_model_left_face.dat', color=(10,10,255)),
+        DlibLandmarksDetectorImgProcessor('predictor_model_left_face.presision.dat', color=(10, 10, 255)),
+        DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat', color=(255, 100, 100)),
+        DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200, 200, 200))
+    ]
 
-    marker = ImgMarkerProcessor()
-    window = ImgStorageWindow('Faces')
-    # window = False
+    # ------ markers ---
+    from src.img.processor.marker import ImgMarkerProcessor
+    processors += [
+        ImgMarkerProcessor()
+    ]
 
-    # loop
-    stop = False
-    i = 0
-    while not stop:
-        try:
-            img = source.get_image()
+    # --- image process loop --
+    from src.img.processor.loop import ImgLoop
+    loop = ImgLoop(
+        img_source=source,
+        img_processors=processors,
+        img_storage=storage
+    )
 
-            if img is None:
-                raise StopIteration()
+    # --- run ---
+    loop.run(log_each_image=True, log_gobal_statistics=True)
 
-            orig_img = copy(img) # It is funny, it create new img array, but log inforamtion are shared.
-
-            #img = resizer.process(img)
-            #img = decolorizer.process(img)
-
-            img = face_detector_Dlib.process(img)
-            #img = face_detector_Cv2Dnn_CafeeFace.process(img)
-
-            img = left_face_landmarks_predictor.process(img)
-            img = right_face_landmarks_predictor.process(img)
-            img = front_face_landmarks_predictor.process(img)
-
-
-            marker.set_resize_factor(orig_img, img)
-
-            orig_img = marker.process(orig_img)
-
-            if storage:
-                orig_img = storage.process(orig_img)
-
-            if window:
-                orig_img = window.process(orig_img)
-
-            # log
-            if log_each_image:
-                print(orig_img)
-            else:
-                if i % 80 == 0:
-                    sys.stdout.write('\n')
-                sys.stdout.write('img/experiments')
-                sys.stdout.flush()
-            i += 1
-        except StopIteration:
-            stop = True
-    if log_gobal_statistics:
-        print()
-        print('===', 'Statistics', '='*60)
-        TimeStatistics.print_as_tsv(print_header=True)
-        print('=' * 80)
