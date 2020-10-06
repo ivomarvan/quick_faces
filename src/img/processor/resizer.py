@@ -23,11 +23,12 @@ from src.img.container.result import ImageProcessorResult
 
 class ImgResizeProcessor(ImgProcessor):
 
-    def __init__(self, width=None, height=None, inter=cv2.INTER_AREA):
+    def __init__(self, width=None, height=None, inter=cv2.INTER_AREA, resize_both: bool = True):
         super().__init__('resize')
         self.add_not_none_option('width', width)
         self.add_not_none_option('height', height)
         self.add_not_none_option('inter', inter)
+        self.add_not_none_option('resize_both', resize_both)
 
     def _process_body(self, img: Image = None) -> Image:
         img.set_work_img_array(
@@ -38,4 +39,14 @@ class ImgResizeProcessor(ImgProcessor):
                 inter=self.get_option('inter'),
             )
         )
+
+        if self.get_option('resize_both'):
+            img.set_orig_img_array(
+                imutils.resize(
+                    image=img.get_orig_img_array(),
+                    width=self.get_option('width'),
+                    height=self.get_option('width'),
+                    inter=self.get_option('inter'),
+                )
+            )
         return img, ImageProcessorResult(self)

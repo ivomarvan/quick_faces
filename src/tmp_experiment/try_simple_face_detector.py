@@ -3,7 +3,7 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Place for testing code.
+    Try trivial face detector (for "our girl)"
 '''
 import sys
 import os
@@ -11,7 +11,7 @@ import os
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, 'img', '..', '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 if __name__ == "__main__":
@@ -19,19 +19,19 @@ if __name__ == "__main__":
     from src.img.source.configurable import ConfigurableImgSource
     # Only one parametr can be set
     source = ConfigurableImgSource(
-        range_of_camara_numbers=range(0,10),
+        # range_of_camara_numbers=range(0,10),
         # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'),
-        # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV')
+        path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV')
     )
 
     # --- storages ---
     from src.img.storage.configurable import ConfigurableImgStorage
     # You can comment a parametr if you do not use a storage
     storage = ConfigurableImgStorage(
-        path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
+        # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
         # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'),
         window_name='Debug Window',
-        video_fps=2  # parameter only for video, Frames Per Second
+        video_fps=30  # parameter only for video, Frames Per Second
     )
 
     # --- processors ---
@@ -39,18 +39,20 @@ if __name__ == "__main__":
 
     # ------ preprocessors ---
     from src.img.processor.resizer import ImgResizeProcessor
-    from src.img.processor.decolorizer import ImgDecolorizeProcessor
+    from src.img.processor.rotator import ImgRotateProcessor
     processors += [
-        # ImgResizeProcessor(width=200),
-        # ImgDecolorizeProcessor()
+        ImgResizeProcessor(width=600, height=200, resize_both=True),
+        ImgRotateProcessor(rotate_both=True)
     ]
 
     # ------ face detectors ---
+    from src.img.processor.face_detector.trivial_face_detector import TrivialFaceDetector
     from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
     from src.img.processor.face_detector.cv2_dnn_caffe import Cv2DnnCafeeFaceDetector
     processors += [
         DlibFaceDetectorImgProcessor(color=(0, 200, 50)),
-        # Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
+        Cv2DnnCafeeFaceDetector(color=(255, 10, 10)),
+        #TrivialFaceDetector(color=(0, 200, 50)),
     ]
 
     # ------ landmarks ----
@@ -58,8 +60,8 @@ if __name__ == "__main__":
     processors += [
         # DlibLandmarksDetectorImgProcessor('predictor_model_left_face.dat', color=(10,10,255)),
         DlibLandmarksDetectorImgProcessor('predictor_model_left_face.presision.dat', color=(10, 10, 255)),
-        DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat', color=(255, 100, 100)),
-        DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200, 200, 200))
+        # DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat', color=(255, 100, 100)),
+        # DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200, 200, 200))
     ]
 
     # ------ markers ---

@@ -67,14 +67,20 @@ class ImgMarkerProcessor(ImgProcessor):
                 r_b = face_rectangle.right_bottom()
                 x2 = r_b.x()
                 y2 = r_b.y()
-                cv2.rectangle(
-                    orig_img_array,
-                    (r_x(x1), r_y(y1)), (r_x(x2), r_y(y2)), face_color, 2)
+                pt1 = (r_x(x1), r_y(y1))
+                pt2 = (r_x(x2), r_y(y2))
+                try:
+                    cv2.rectangle(img=orig_img_array, pt1=pt1, pt2=pt2, color=face_color, thickness=2)
+                except Exception as e:
+                    print('!'*5, e)
 
                 # draw landmarks
                 for landmark_point in landmarks:
                     x, y = landmark_point.x(), landmark_point.y()
-                    cv2.circle(orig_img_array, (r_x(x), r_y(y)), 1, face_color, 2)
-                    cv2.circle(orig_img_array, (r_x(x), r_y(y)), 2, landmarks_color, -1)
+                    try:
+                        cv2.circle(orig_img_array, (r_x(x), r_y(y)), 1, face_color, 2)
+                        cv2.circle(orig_img_array, (r_x(x), r_y(y)), 2, landmarks_color, -1)
+                    except Exception as e:
+                        print('$' * 5, e)
 
         return img, ImageProcessorResult(self)
