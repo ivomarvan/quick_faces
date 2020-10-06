@@ -20,10 +20,14 @@ from src.img.container.image import Image
 
 class Camera(ImgSourceBase):
 
-    def __init__(self, name: str = ''):
-        super().__init__('camera.' + name)
+    def __init__(self, name: str = '', range_of_camara_numbers=range(0,10)):
+        name1 = 'camera'
+        if name:
+            name1 += '.' + name
+        super().__init__(name=name1)
         self._capture = None
         self._is_adjusted = False
+        self._range_of_camara_numbers = range_of_camara_numbers
 
     def __del__(self):
         if not self._capture is None:
@@ -45,7 +49,7 @@ class Camera(ImgSourceBase):
         return True
 
     def _adjust_and_return_img(self) -> (np.ndarray, int):
-        for i in range(0,10):
+        for i in self._range_of_camara_numbers:
             try:
                 self._capture = cv2.VideoCapture(i)
             except Exception as e:
@@ -53,6 +57,7 @@ class Camera(ImgSourceBase):
             if self._capture.isOpened():
                 img, img_microseconds = self._get_img()
                 if self._img_is_ok(img, deep_check=True):
+                    self._name += f'.{i}'
                     print('-' * 80)
                     print('Found camera:', i)
                     print('-' * 80)

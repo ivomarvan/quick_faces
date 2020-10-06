@@ -12,8 +12,6 @@ The idea is to choose for your own experiment:
 2) any of the **outputs** (directory, video, a window on the screen)
 3) any of the **processors** (programs) or a combination of them that will process the images
 
-(The framework was designed especially for different algorithms searching faces and landmarks in these faces).
-
 ## Debugging
 
 For each process, **the processing time is recorded**, both for individual images and as a whole as **statistics** for the entire process.
@@ -57,6 +55,7 @@ For now, just modify main_example.py and run it:
     - configuration file examples
     - How to write your own image processor
 - add different types **of face detectors**
+    - Inspiration can be found there https://github.com/topics/face-detection?o=desc&s=stars
     - **yolo v3**
     - **tracking face detecor** 
     Estimates the position of the face based on the previous location of the landmarks and the direction and speed of movement of these landmarks in history. Either a simple estimate or learning from examples in history. If the history is not known, the classic (and slower) face detector is used.

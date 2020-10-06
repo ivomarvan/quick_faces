@@ -16,10 +16,9 @@ sys.path.append(PROJECT_ROOT)
 
 if __name__ == "__main__":
     # for tests only
+
     # sources
-    from src.img.source.dir import ImgSourceDir
-    from src.img.source.camera import Camera
-    from src.img.source.video import ImgSourceVideo
+    from src.img.source.configurable import ConfigurableImgSource
 
     # storages
     from src.img.storage.dir import ImgStorageDir
@@ -44,17 +43,20 @@ if __name__ == "__main__":
     # statistics
     from src.utils.timeit_stats import TimeStatistics
 
+    # define source of images
+    source = ConfigurableImgSource(range_of_camara_numbers=range(0,10))
+    # source = ConfigurableImgSource(path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'))
+    # source = ConfigurableImgSource(path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV'))
+
     # configuration of inputs/outputs
     show_output_in_window = True
     log_each_image = True
     log_gobal_statistics = True
 
-    # source = ImgSourceVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV'))
-    source = Camera()
-    # source = ImgSourceDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'))
 
-    storage = ImgStorageDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'))
+    # storage = ImgStorageDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'))
     # storage = ImgStorageVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'), fps=2)
+    storage = None
 
     #resizer = ImgResizeProcessor(width=400)
     #decolorizer = ImgDecolorizeProcessor()
@@ -69,13 +71,14 @@ if __name__ == "__main__":
 
     marker = ImgMarkerProcessor()
     window = ImgStorageWindow('Faces')
+    # window = False
 
     # loop
     stop = False
     i = 0
     while not stop:
         try:
-            img = source.process(None)
+            img = source.get_image()
 
             if img is None:
                 raise StopIteration()
@@ -100,7 +103,7 @@ if __name__ == "__main__":
             if storage:
                 orig_img = storage.process(orig_img)
 
-            if show_output_in_window:
+            if window:
                 orig_img = window.process(orig_img)
 
             # log

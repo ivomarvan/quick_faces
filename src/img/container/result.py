@@ -40,5 +40,7 @@ class ImageProcessorResult:
 
     def __str__(self):
         s = f'\n\t\tprocessor:{self.get_processor().get_name()} => {self.get_time_ms()} [ms]'
-        s += f'\n\t\toptions: {self.get_processor().get_options()}'
+        options = self.get_processor().get_options()
+        if options:
+            s += f'\n\t\toptions: {options}'
         return s
