@@ -11,6 +11,7 @@ import numpy as np
 import cv2
 from typing import Any
 
+
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
@@ -31,15 +32,22 @@ class Image:
         array: np.ndarray,
         id: Any
     ):
-        self._array = array
+        self._orig_img_array = array        # orginal img array for showing results  
+        self._work_img_array = np.copy(array)  # working copy of image, can me resized, decolorized, ....
         self._id = id
         self._results = ImageProcessorResults()
 
-    def get_array(self):
-        return self._array
+    def get_orig_img_array(self):
+        return self._orig_img_array
 
-    def set_array(self, array:np.ndarray):
-        self._array = array
+    def set_orig_img_array(self, array:np.ndarray):
+        self._orig_img_array = array
+
+    def get_work_img_array(self):
+        return self._work_img_array
+
+    def set_work_img_array(self, array: np.ndarray):
+        self._work_img_array = array
 
     def get_id(self):
         return self._id
@@ -54,7 +62,7 @@ class Image:
         return self._results
 
     def get_shape(self):
-        return self._array.shape
+        return self._orig_img_array.shape
 
     def __str__(self) -> str:
         return f'img:{self._id}, shape:{self.get_shape()}, {self._results}'
@@ -81,7 +89,7 @@ class Image:
         path = os.path.join(path, str(self.get_id()))
         path = self._change_extension(path=path, forced_extension=extension)
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        cv2.imwrite(filename=path, img=self._array, params=params)
+        cv2.imwrite(filename=path, img=self._orig_img_array, params=params)
 
     @classmethod
     def read_from_file(cls, path:str, color_flag: int = cv2.IMREAD_UNCHANGED, img_id: str = '') -> 'Image':

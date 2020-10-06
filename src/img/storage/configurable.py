@@ -32,10 +32,13 @@ class ConfigurableImgStorage:
         video_fps: int = 30
     ):
         self._storages = []
+        self._video = None
         if path_to_images is not None:
             self._storages.append(ImgStorageDir(path=path_to_images))
         if path_to_video is not None:
-            self._storages.append(ImgStorageVideo(path=path_to_video, codec=video_codec, fps=video_fps))
+            # It is important store ImgStorageVideo object, for callin its __del__() method
+            self._video = ImgStorageVideo(path=path_to_video, codec=video_codec, fps=video_fps)
+            self._storages.append(self._video)
         if window_name is not None:
             self._storages.append(ImgStorageWindow(name=window_name))
         if len(self._storages) <= 0:
@@ -47,7 +50,7 @@ class ConfigurableImgStorage:
         Simple call selected source
         '''
         for storage in self._storages:
-            img = self._source.process(img)
+            img = storage.process(img)
         return img
 
 

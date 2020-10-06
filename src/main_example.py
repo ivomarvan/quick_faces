@@ -7,7 +7,7 @@ __description__ = '''
 '''
 import sys
 import os
-from copy import copy
+
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
@@ -17,11 +17,12 @@ sys.path.append(PROJECT_ROOT)
 if __name__ == "__main__":
     # --- sources ---
     from src.img.source.configurable import ConfigurableImgSource
-    # define source of images
-
-    source = ConfigurableImgSource(range_of_camara_numbers=range(0,10))
-    # source = ConfigurableImgSource(path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'))
-    # source = ConfigurableImgSource(path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV'))
+    # Only one parametr can be set
+    source = ConfigurableImgSource(
+        range_of_camara_numbers=range(0,10),
+        # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'),
+        # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV')
+    )
 
     # --- storages ---
     from src.img.storage.configurable import ConfigurableImgStorage
@@ -30,7 +31,7 @@ if __name__ == "__main__":
         path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
         # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'),
         window_name='Debug Window',
-        video_fps=30
+        video_fps=2  # parameter only for video, Frames Per Second
     )
 
     # --- processors ---
@@ -39,8 +40,10 @@ if __name__ == "__main__":
     # ------ preprocessors ---
     from src.img.processor.resizer import ImgResizeProcessor
     from src.img.processor.decolorizer import ImgDecolorizeProcessor
-    # resizer = ImgResizeProcessor(width=400)
-    # decolorizer = ImgDecolorizeProcessor()
+    processors += [
+        # ImgResizeProcessor(width=200),
+        # ImgDecolorizeProcessor()
+    ]
 
     # ------ face detectors ---
     from src.img.processor.face_detector.result import FaceDetectorResult
@@ -49,7 +52,6 @@ if __name__ == "__main__":
     processors += [
         DlibFaceDetectorImgProcessor(color=(0, 200, 50)),
         # Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
-
     ]
 
     # ------ landmarks ----
@@ -77,4 +79,3 @@ if __name__ == "__main__":
 
     # --- run ---
     loop.run(log_each_image=True, log_gobal_statistics=True)
-

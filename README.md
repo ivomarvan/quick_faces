@@ -47,6 +47,8 @@ For now, just modify main_example.py and run it:
 
 `python3 main_example.py`
 
+## Versions
+Still in development, no stable version yet.
 
 ## Todo list (for the near future):
 - Wrap the entire process to a **command line** with parameters and/or with a configuration file.

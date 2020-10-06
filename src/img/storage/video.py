@@ -46,16 +46,17 @@ class ImgStorageVideo(ImgStorageBase):
             heights.append(img.get_height())
         max_width = max(widths)
         max_height = max(heights)
+        os.makedirs(os.path.dirname(self._path), exist_ok=True)
         out = cv2.VideoWriter(self._path, fourcc, self._fps, (max_width, max_height))
         for img in self._images:
             w, h = img.get_width(), img.get_height()
             if w != max_width or h != max_height:
                 # put small image to big one (with maximal size in dataset)
                 big_image = np.zeros((max_height, max_width, 3), np.uint8)
-                big_image[0:h, 0:w,:] = img.get_array()
+                big_image[0:h, 0:w,:] = img.get_orig_img_array()
                 out.write(big_image)
             else:
-                out.write(img.get_array())
+                out.write(img.get_orig_img_array())
 
         out.release()
 

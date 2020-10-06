@@ -28,9 +28,9 @@ class ImgDecolorizeProcessor(ImgProcessor):
         self.add_not_none_option('code', code)
 
     def _process_body(self, img: Image = None) -> Image:
-        img.set_array(
+        img.set_work_img_array(
             cv2.cvtColor(
-                src=img.get_array(),
+                src=img.get_work_img_array(),
                 code=self.get_option('code')
             )
         )

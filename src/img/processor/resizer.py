@@ -30,9 +30,9 @@ class ImgResizeProcessor(ImgProcessor):
         self.add_not_none_option('inter', inter)
 
     def _process_body(self, img: Image = None) -> Image:
-        img.set_array(
+        img.set_work_img_array(
             imutils.resize(
-                image=img.get_array(),
+                image=img.get_work_img_array(),
                 width=self.get_option('width'),
                 height=self.get_option('width'),
                 inter=self.get_option('inter'),

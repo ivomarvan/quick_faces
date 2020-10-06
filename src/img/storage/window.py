@@ -36,7 +36,7 @@ class ImgStorageWindow(ImgStorageBase):
         Show img in window
         '''
         # show the frame
-        cv2.imshow(self._name, img.get_array())
+        cv2.imshow(self._name, img.get_orig_img_array())
         key = cv2.waitKey(1) & 0xFF
 
         # if the `q` key was pressed, break from the loop

@@ -54,7 +54,7 @@ class DlibLandmarksDetectorImgProcessor(ImgProcessor):
         for face_result in faces_results:
             faces = face_result.get_rectangles()  # [Rectangle]
             for face_index, face_rectangle in enumerate(faces):
-                landmarks = landmarks_to_points(self._predictor(img.get_array(), face_rectangle.as_dlib_rectangle()))
+                landmarks = landmarks_to_points(self._predictor(img.get_work_img_array(), face_rectangle.as_dlib_rectangle()))
                 face_landmark_couples.append(FaceLandmarsks(face_result=face_result, landmarks=landmarks, face_index=face_index))
         return img, LandmarksDetectorResult(self, face_landmark_couples=face_landmark_couples)
 
