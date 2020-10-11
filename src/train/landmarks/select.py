@@ -17,7 +17,7 @@ THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
-from src.default_dirs import DEFAULT_LANDMARK_FILES, get_landmark_filename
+from src.models.source import DEFAULT_LANDMARK_FILES, get_landmark_filename
 from src.train_test.landmarks.sets import LANDMARKS_MODELS
 
 

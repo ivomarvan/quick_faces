@@ -3,7 +3,7 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Dlib face detector as img processor
+    CAFFE_DNN face detector as img processor
 '''
 import sys
 import os
@@ -16,7 +16,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..', '..'
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
-from src.default_dirs import ModelsSource
+from src.models.source import ModelsSource
 from src.img.processor.face_detector.face_detector import FaceDetector
 from src.img.processor.face_detector.result import FaceDetectorResult
 from src.img.container.geometry import Point, Rectangle

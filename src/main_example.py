@@ -50,7 +50,7 @@ if __name__ == "__main__":
     from src.img.processor.face_detector.cv2_dnn_caffe import Cv2DnnCafeeFaceDetector
     processors += [
         DlibFaceDetectorImgProcessor(color=(0, 200, 50)),
-        # Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
+        Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
     ]
 
     # ------ landmarks ----

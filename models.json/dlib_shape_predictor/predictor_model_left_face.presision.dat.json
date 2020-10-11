@@ -1,0 +1,12 @@
+{
+    "filename": "predictor_model_left_face.presision.dat.gz",
+    "path": "dlib_shape_predictor",
+    "url": {
+      "type": "chunks",
+      "dir_url": "http://ivom.great-site.net/models/dlib_shape_predictor/predictor_model_left_face.presision.dat",
+      "chunks": [
+        "x00", "x01", "x02", "x03", "x04", "x05", "x06", "x07", "x08", "x09", "x10", "x11", "x12"
+      ]
+    },
+    "comment": "Dlib shape model for left part of face, optimized by precision."
+}

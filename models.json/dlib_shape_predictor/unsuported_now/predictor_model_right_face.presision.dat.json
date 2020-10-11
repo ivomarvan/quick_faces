@@ -1,0 +1,6 @@
+{
+    "filename": "predictor_model_right_face.presision.dat",
+    "path": "dlib_shape_predictor",
+    "url": "https://drive.google.com/uc?export=download&id=157T_xleEryBb11_AqOx2_KSIn5ZP_ysh",
+    "comment": "Dlib shape model for right side of face, omtimalized by presision"
+}

@@ -1,0 +1,12 @@
+{
+    "filename": "shape_predictor_68_face_landmarks.dat.gz",
+    "path": "dlib_shape_predictor",
+    "url": {
+      "type": "chunks",
+      "dir_url": "http://ivom.great-site.net/models/dlib_shape_predictor/predictor_model_left_face.presision.dat",
+      "chunks": [
+        "x00", "x01", "x02", "x03", "x04", "x05", "x06", "x07", "x08", "x09"
+      ]
+    },
+    "comment": "Dlib shape model for front view. Clasical 68 landmarks"
+}
