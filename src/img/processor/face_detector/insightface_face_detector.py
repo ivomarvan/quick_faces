@@ -43,9 +43,7 @@ class InsightfaceFaceDetector(FaceDetector):
     def _process_body(self, img: Image = None) -> (Image, FaceDetectorResult):
         img_array = img.get_work_img_array()
         bboxes, _ = self._detector.detect(img_array)
-        if bboxes.shape[0] == 0:
-            return np.ndarray([])
-        if not self._get_all:
+        if (not self._get_all) and (bboxes.shape[0] != 0):
             areas = []
             for i in range(bboxes.shape[0]):
                 x = bboxes[i]
@@ -53,15 +51,8 @@ class InsightfaceFaceDetector(FaceDetector):
                 areas.append(area)
             m = np.argsort(areas)[-1]
             bboxes = bboxes[m:m + 1]
-        faces_rectangles = []
-        for bbox in bboxes:
-            # w, h = (bbox[2] - bbox[0]), (bbox[3] - bbox[1])
-            faces_rectangles.append(
-                Rectangle(
-                    left_top=Point(x=bbox[0], y=bbox[1]),
-                    right_bottom=Point(x=bbox[2], y=bbox[3])
-                )
-            )
-        print(f'{faces_rectangles}')
+        faces_rectangles = [Rectangle.from_bbox(bbox) for bbox in bboxes]
+
+        #print(f'{faces_rectangles}')
         return img, FaceDetectorResult(self, rectangles=faces_rectangles)
 

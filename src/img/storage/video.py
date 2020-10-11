@@ -19,10 +19,11 @@ sys.path.append(PROJECT_ROOT)
 
 from src.img.storage.base import ImgStorageBase
 from src.img.container.image import Image
+from moviepy.editor import VideoFileClip, concatenate_videoclips
 
 class ImgStorageVideo(ImgStorageBase):
 
-    def __init__(self, path: str, codec='mp4v', fps: int = 30):
+    def __init__(self, path: str, codec='mp4v', fps: int = 30, max_images_in_one_part: int = 60*30):
         super().__init__('dir.' + path)
         self.add_not_none_option('out', path)
         self.add_not_none_option('fps', fps)
@@ -31,13 +32,32 @@ class ImgStorageVideo(ImgStorageBase):
         self._fps = fps
         self._images = []  # [Image]
         self._path = path
+        self._max_images_in_one_part = max_images_in_one_part
+        self._video_parts = []
+        self._fourcc = cv2.VideoWriter_fourcc(*self._codec)
 
 
     def __del__(self):
         '''
         Store all temoraly tored images images
         '''
-        fourcc = cv2.VideoWriter_fourcc(*self._codec)
+        if self._images:
+            self._store_one_part()
+        return
+        videos = [VideoFileClip(path) for path in self._video_parts]
+        final_clip = concatenate_videoclips(videos)
+        final_clip.write_videofile(self._path)
+        for path in self._video_parts:
+            os.remove(path)
+
+
+    def _get_tmp_filename(self):
+        name_parts = self._path.split('.')
+        new_patrs = name_parts[:-1] + [f'{len(self._video_parts):03}'] + [name_parts[-1]]
+        return '.'.join(new_patrs)
+
+    def _store_one_part(self):
+        tmp_wideo_path = self._get_tmp_filename()
         # find width and height for output
         widths = []
         heights = []
@@ -46,24 +66,28 @@ class ImgStorageVideo(ImgStorageBase):
             heights.append(img.get_height())
         max_width = max(widths)
         max_height = max(heights)
-        os.makedirs(os.path.dirname(self._path), exist_ok=True)
-        out = cv2.VideoWriter(self._path, fourcc, self._fps, (max_width, max_height))
+        os.makedirs(os.path.dirname(tmp_wideo_path), exist_ok=True)
+        out = cv2.VideoWriter(tmp_wideo_path, self._fourcc, self._fps, (max_width, max_height))
         for img in self._images:
             w, h = img.get_width(), img.get_height()
             if w != max_width or h != max_height:
                 # put small image to big one (with maximal size in dataset)
                 big_image = np.zeros((max_height, max_width, 3), np.uint8)
-                big_image[0:h, 0:w,:] = img.get_orig_img_array()
+                big_image[0:h, 0:w, :] = img.get_orig_img_array()
                 out.write(big_image)
             else:
                 out.write(img.get_orig_img_array())
-
         out.release()
+        # clean
+        self._images = []
+        self._video_parts.append(tmp_wideo_path)
 
     def store(self, img: Image) -> Image:
         '''
         @see src.img.storage.base.ImgStorageBase.store
         '''
         self._images.append(img)
+        if len(self._images) >= self._max_images_in_one_part:
+            self._store_one_part()
         return img
 

@@ -7,6 +7,7 @@ __description__ = '''
     The goal is to unify results of different processors  
 '''
 import dlib
+import numpy as np
 
 class Point:
 
@@ -74,6 +75,18 @@ class Rectangle:
             bottom=self.right_bottom().y()
         )
 
+    def as_bbox(self) -> np.ndarray:
+        return np.array([
+            self.left_top().x(), self.left_top().y(), self.right_bottom().x(), self.right_bottom().y()
+        ])
+
     def __str__(self):
         right_bottom = self.right_bottom()
         return f'Rectangle(x={right_bottom.x()}, y={right_bottom.y()}, width={self.width()}, height={self.height()})'
+
+    @classmethod
+    def from_bbox(cls, bbox: np.ndarray) -> 'Rectangle':
+        return Rectangle(
+            left_top=Point(x=bbox[0], y=bbox[1]),
+            right_bottom=Point(x=bbox[2], y=bbox[3])
+        )

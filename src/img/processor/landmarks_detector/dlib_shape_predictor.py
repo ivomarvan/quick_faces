@@ -3,7 +3,7 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Dlib lendmarks detector (redictor in some terminology) as img processor
+    Dlib lendmarks detector (predictor in some terminology) as img processor
 '''
 import sys
 import os
