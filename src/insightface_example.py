@@ -19,8 +19,8 @@ if __name__ == "__main__":
     from src.img.source.configurable import ConfigurableImgSource
     # Only one parametr can be set
     source = ConfigurableImgSource(
-        range_of_camara_numbers=range(0,10),
-        # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'),
+        #range_of_camara_numbers=range(0,10),
+        path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'),
         # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV')
     )
 
@@ -38,26 +38,20 @@ if __name__ == "__main__":
     processors = []
 
     # ------ preprocessors ---
+    from src.img.processor.reformat.squere_crop.processor import SquereCropImgProcessor
     processors += [
-        # ImgResizeProcessor(width=200),
-        # ImgDecolorizeProcessor()
+        SquereCropImgProcessor(crop_size=640)
     ]
 
     # ------ face detectors ---
-    from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
+    from src.img.processor.face_detector.insightface_face_detector import InsightfaceFaceDetector
 
     processors += [
-        DlibFaceDetectorImgProcessor(color=(0, 200, 50)),
-        # Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
+        InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50)),
     ]
 
     # ------ landmarks ----
-    from src.img.processor.landmarks_detector.dlib_shape_predictor import DlibLandmarksDetectorImgProcessor
     processors += [
-        # DlibLandmarksDetectorImgProcessor('predictor_model_left_face.dat', color=(10,10,255)),
-        DlibLandmarksDetectorImgProcessor('predictor_model_left_face.presision.dat', color=(10, 10, 255)),
-        DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat', color=(255, 100, 100)),
-        DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200, 200, 200))
     ]
 
     # ------ markers ---

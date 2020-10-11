@@ -38,15 +38,14 @@ if __name__ == "__main__":
     processors = []
 
     # ------ preprocessors ---
-    from src.img.processor.resizer import ImgResizeProcessor
-    from src.img.processor.rotator import ImgRotateProcessor
+    from src.img.processor.reformat.resizer import ImgResizeProcessor
+    from src.img.processor.reformat.rotator import ImgRotateProcessor
     processors += [
         ImgResizeProcessor(width=600, height=200, resize_both=True),
         ImgRotateProcessor(rotate_both=True)
     ]
 
     # ------ face detectors ---
-    from src.img.processor.face_detector.trivial_face_detector import TrivialFaceDetector
     from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
     from src.img.processor.face_detector.cv2_dnn_caffe import Cv2DnnCafeeFaceDetector
     processors += [

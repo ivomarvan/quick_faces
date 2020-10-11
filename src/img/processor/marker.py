@@ -18,6 +18,8 @@ from src.img.container.image import Image
 from src.img.container.result import ImageProcessorResult
 from src.img.processor.processor import ImgProcessor
 from src.img.processor.landmarks_detector.result import LandmarksDetectorResult, FaceLandmarsks
+from src.img.processor.face_detector.result import FaceDetectorResult
+from src.img.processor.reformat.squere_crop.result import SquereCropResult
 
 class ImgMarkerProcessor(ImgProcessor):
 
@@ -43,7 +45,12 @@ class ImgMarkerProcessor(ImgProcessor):
         h_work = work_shape[0]
         w_work = work_shape[1]
 
-        mx, my = w_orig / w_work, h_orig / h_work
+        reformat_result = img.get_results().get_results_for_processor_super_class(SquereCropResult)
+        if reformat_result:
+            img_scale = reformat_result[0].get_img_scale()
+            mx, my = img_scale, img_scale
+        else:
+            mx, my = w_orig / w_work, h_orig / h_work
 
         def r_x(x: int) -> int:
             return int(round(mx * x, 0))
@@ -51,15 +58,10 @@ class ImgMarkerProcessor(ImgProcessor):
         def r_y(y: int) -> int:
             return int(round(my * y, 0))
 
-        landmark_results = img.get_results().get_results_for_processor_super_class(LandmarksDetectorResult)  # [FaceLandmarsks]
-        for landmark_result in landmark_results: # FaceLandmarsks
-            for face_landmarks in landmark_result.get_face_landmark_couples():
-                landmarks = face_landmarks.get_landmarks()  # [Point]
-                face_result =  face_landmarks.get_face_result()  # FaceDetectorResult
-                face_rectangle = face_landmarks.get_actual_face()
-                landmarks_color = landmark_result.get_processor().get_option('color')
-                face_color = face_result.get_processor().get_option('color')
-
+        faces_results = img.get_results().get_results_for_processor_super_class(FaceDetectorResult)
+        for face_result in faces_results:
+            face_color = face_result.get_processor().get_option('color')
+            for face_rectangle in face_result.get_rectangles():
                 # draw face
                 l_t = face_rectangle.left_top()
                 x1 = l_t.x()
@@ -72,7 +74,16 @@ class ImgMarkerProcessor(ImgProcessor):
                 try:
                     cv2.rectangle(img=orig_img_array, pt1=pt1, pt2=pt2, color=face_color, thickness=2)
                 except Exception as e:
-                    print('!'*5, e)
+                    print('!' * 5, e)
+
+
+        landmark_results = img.get_results().get_results_for_processor_super_class(LandmarksDetectorResult)  # [FaceLandmarsks]
+        for landmark_result in landmark_results: # FaceLandmarsks
+            for face_landmarks in landmark_result.get_face_landmark_couples():
+                landmarks = face_landmarks.get_landmarks()  # [Point]
+                face_result =  face_landmarks.get_face_result()  # FaceDetectorResult
+                landmarks_color = landmark_result.get_processor().get_option('color')
+                face_color = face_result.get_processor().get_option('color')
 
                 # draw landmarks
                 for landmark_point in landmarks:
