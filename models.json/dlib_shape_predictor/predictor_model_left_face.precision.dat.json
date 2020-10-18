@@ -1,0 +1,6 @@
+{
+    "filename": "predictor_model_left_face.precision.dat.gz",
+    "path": "dlib_shape_predictor",
+    "url": "https://www.dropbox.com/s/7b3mmzk3ncv79ob/predictor_model_left_face.precision.dat.gz?dl=1",
+    "comment": "Dlib shape model for left part of face, optimized by precision."
+}

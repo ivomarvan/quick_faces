@@ -1,0 +1,6 @@
+{
+    "filename": "shape_predictor_68_face_landmarks.dat.gz",
+    "path": "dlib_shape_predictor",
+    "url": "https://www.dropbox.com/s/jup2abhmojmm55w/shape_predictor_68_face_landmarks.dat.gz?dl=1",
+    "comment": "Dlib shape model for front view. Clasical 68 landmarks"
+}

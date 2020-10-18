@@ -32,13 +32,11 @@ For example store your images to _nogit_data/from_herman/in_img_ and set storage
 
 ### Models
 
-Models are stored by git with extension **vlf** (Versioning large files https://docs.github.com/en/free-pro-team@latest/github/managing-large-files/versioning-large-files) in the directory `models`.
-There are gzipped.
+Models are stored separately in the Dropbox. They are loaded automatically when used (to the nogit_data/models_cache directory).
 
 The framework un-gzip the files automatically to the directory `nogit_data/models_cache`.
 
 ## Requirements
-For access to models you need git with extension **vlf** (see https://docs.github.com/en/free-pro-team@latest/github/managing-large-files/installing-git-large-file-storage)
 
 See file **requirements.txt** for python packages.
 

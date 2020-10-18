@@ -18,7 +18,7 @@ sys.path.append(PROJECT_ROOT)
 from src.img.container.geometry import Point
 from src.img.container.image import Image
 from src.img.processor.processor import ImgProcessor
-from src.default_dirs import ModelsSource
+from src.models.source import ModelsSource
 from src.img.processor.landmarks_detector.result import LandmarksDetectorResult, FaceLandmarsks
 from src.img.processor.face_detector.result import FaceDetectorResult
 

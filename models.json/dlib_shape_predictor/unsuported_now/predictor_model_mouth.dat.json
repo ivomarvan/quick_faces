@@ -1,0 +1,6 @@
+{
+    "filename": "predictor_model_mouth.dat.gz",
+    "path": "dlib_shape_predictor",
+    "url": "https://drive.google.com/uc?export=download&id=1uoF3WU_Lw7m7CGxK5gZOSAPErCdMuMvU",
+    "comment": "Dlib shape model for mouth."
+}
