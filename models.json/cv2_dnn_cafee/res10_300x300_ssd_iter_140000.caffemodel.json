@@ -1,6 +1,6 @@
 {
     "filename": "res10_300x300_ssd_iter_140000.caffemodel.gz",
     "path": "cv2_dnn_cafee",
-    "url": "http://ivom.great-site.net/models/cv2_dnn_cafee/res10_300x300_ssd_iter_140000.caffemodel.gz",
+    "url": "https://www.dropbox.com/s/onlso1t2mj0z4rr/res10_300x300_ssd_iter_140000.caffemodel.gz?dl=1",
     "comment": "Original CAFFE_DNN model for face detector"
 }

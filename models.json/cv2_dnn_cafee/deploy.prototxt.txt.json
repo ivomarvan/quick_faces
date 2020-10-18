@@ -1,6 +1,6 @@
 {
     "filename": "deploy.prototxt.txt.gz",
     "path": "cv2_dnn_cafee",
-    "url": "http://ivom.great-site.net/models/cv2_dnn_cafee/deploy.prototxt.txt.gz",
+    "url": "https://www.dropbox.com/s/oje23fr1gdz01zu/deploy.prototxt.txt.gz?dl=1",
     "comment": "Original CAFFE_DNN model for face detector"
 }

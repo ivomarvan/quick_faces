@@ -13,9 +13,7 @@ import os.path
 import gzip
 import json
 import requests
-import re
-import html
-import user_agent
+
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
@@ -41,9 +39,6 @@ class ModelsSource:
     # cache for unzziped models in no-git directory
     MODELS_CACHE_DIR = os.path.join(NOGIT_DATA, 'models_cache')
 
-    HEADERS = {
-        'User-Agent': user_agent.generate_user_agent()
-    }
 
 
     @classmethod
@@ -85,7 +80,7 @@ class ModelsSource:
             else:
                 raise Exception(f'Unsuported type of url ({type}) in {cache_ungzipped_filename}')
             for url in urls:
-                r = requests.get(url, headers=cls.HEADERS)
+                r = requests.get(url)
                 print(f'downloading {url} -> {out_filename}')
                 for chunk in r.iter_content(chunk_size=128):
                     fd.write(chunk)

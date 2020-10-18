@@ -28,7 +28,7 @@ if __name__ == "__main__":
     from src.img.storage.configurable import ConfigurableImgStorage
     # You can comment a parametr if you do not use a storage
     storage = ConfigurableImgStorage(
-        path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
+        # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
         # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'),
         window_name='Debug Window',
         video_fps=2  # parameter only for video, Frames Per Second
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     from src.img.processor.landmarks_detector.dlib_shape_predictor import DlibLandmarksDetectorImgProcessor
     processors += [
         # DlibLandmarksDetectorImgProcessor('predictor_model_left_face.dat', color=(10,10,255)),
-        DlibLandmarksDetectorImgProcessor('predictor_model_left_face.presision.dat', color=(10, 10, 255)),
+        DlibLandmarksDetectorImgProcessor('predictor_model_left_face.precision.dat', color=(10, 10, 255)),
         DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat', color=(255, 100, 100)),
         DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200, 200, 200))
     ]

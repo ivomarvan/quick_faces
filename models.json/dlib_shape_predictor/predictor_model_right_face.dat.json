@@ -1,12 +1,6 @@
 {
     "filename": "predictor_model_right_face.dat.gz",
     "path": "dlib_shape_predictor",
-    "url": {
-      "type": "chunks",
-      "dir_url": "http://ivom.great-site.net/models/dlib_shape_predictor/predictor_model_right_face.dat",
-      "chunks": [
-        "x00", "x01", "x02", "x03"
-      ]
-    },
+    "url": "https://www.dropbox.com/s/hzscaho7zb34hcs/predictor_model_right_face.dat.gz?dl=1",
     "comment": "Dlib shape model for right side of face."
 }
