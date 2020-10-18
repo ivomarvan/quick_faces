@@ -1,6 +1,6 @@
 {
     "filename": "2d106det-symbol.json.gz",
-    "path": "insightface_2d106det",
+    "path": "2d106det",
     "url": "https://www.dropbox.com/s/w7urlzafmyxfql6/2d106det-symbol.json.gz?dl=1",
     "comment": "Landmartk model from https://github.com/deepinsight/insightface/tree/master/alignment/coordinateReg"
 }

@@ -38,7 +38,13 @@ The framework un-gzip the files automatically to the directory `nogit_data/model
 
 ## Requirements
 
-See file **requirements.txt** for python packages.
+I am using **conda** environment with **python 3.8.**
+
+For _insightface_ library is important the library **mxnet** in version **1.6.0.** 
+(see https://github.com/deepinsight/insightface for details).
+
+See file **requirements.conda.txt** for all details about my environment.
+
 
 ## Usage
 For now, just modify main_example.py and run it:

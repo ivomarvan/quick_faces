@@ -1,6 +1,6 @@
 {
     "filename": "2d106det-0000.params.gz",
-    "path": "insightface_2d106det",
+    "path": "2d106det",
     "url": "https://www.dropbox.com/s/rbc7hln6a2xw6g8/2d106det-0000.params.gz?dl=1",
     "comment": "Landmartk model from https://github.com/deepinsight/insightface/tree/master/alignment/coordinateReg"
 }

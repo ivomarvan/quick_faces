@@ -22,7 +22,7 @@ NOGIT_DATA = os.path.join(PROJECT_ROOT, 'nogit_data')
 from src.img.container.geometry import Point, Rectangle
 from src.img.container.image import Image
 from src.img.processor.processor import ImgProcessor
-from src.default_dirs import ModelsSource
+from src.models.source import ModelsSource
 from src.img.processor.landmarks_detector.result import LandmarksDetectorResult, FaceLandmarsks
 from src.img.processor.face_detector.result import FaceDetectorResult
 
@@ -30,15 +30,17 @@ class InsightfaceLandmarksDetectorImgProcessor(ImgProcessor):
 
     def __init__(
         self,
-        # @todo It is hack when online storage is not implemented yet
-        # see https://github.com/deepinsight/insightface/tree/master/alignment/coordinateReg for downloading the model
-        model_prefix:str = os.path.join(NOGIT_DATA, 'models_cache', '2d106det', '2d106det'),
         epoch: int = 0,
         im_size: int = 192,
         ctx_id: int = -1,
         color: tuple = (0, 0, 255)
     ):
+        # download files for model if necessary
+        ModelsSource.get_file_name(os.path.join('2d106det', '2d106det-0000.params'))
+        ModelsSource.get_file_name(os.path.join('2d106det', '2d106det-symbol.json'))
+        model_prefix: str = os.path.join(NOGIT_DATA, 'models_cache', '2d106det', '2d106det')
         super().__init__(f'insightface.landmarks_predictor({model_prefix})')
+
         self._color = color
         self.add_not_none_option('im_size', im_size)
         self.add_not_none_option('color', color)

@@ -18,8 +18,8 @@ if __name__ == "__main__":
     from src.img.source.configurable import ConfigurableImgSource
     # Only one parametr can be set
     source = ConfigurableImgSource(
-        # range_of_camara_numbers=range(0,10),
-        path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'),
+        range_of_camara_numbers=range(0,10),
+        # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'),
         # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV')
     )
 
@@ -27,10 +27,10 @@ if __name__ == "__main__":
     from src.img.storage.configurable import ConfigurableImgStorage
     # You can comment a parametr if you do not use a storage
     storage = ConfigurableImgStorage(
-        path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
+        #path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
         # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'),
         window_name='Debug Window',
-        video_fps=30  # parameter only for video, Frames Per Second
+        #video_fps=30  # parameter only for video, Frames Per Second
     )
 
     # --- processors ---
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     from src.img.processor.reformat.resizer import ImgResizeProcessor
     s = 640
     processors += [
-        ImgResizeProcessor(width=s, height=s),
+        # ImgResizeProcessor(width=s, height=s),
         # ImgRotateProcessor(angle=80),
         SquereCropImgProcessor(crop_size=s)
     ]
