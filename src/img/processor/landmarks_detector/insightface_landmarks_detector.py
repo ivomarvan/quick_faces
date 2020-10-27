@@ -3,7 +3,7 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    InsightfaceFace lendmarks detector (predictor in some terminology) as img processor.
+    InsightfaceFace landmarks detector (predictor in some terminology) as img processor.
     @credit https://github.com/deepinsight/insightface/tree/master/alignment/coordinateReg
 '''
 import sys
@@ -19,7 +19,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..', '..'
 sys.path.append(PROJECT_ROOT)
 NOGIT_DATA = os.path.join(PROJECT_ROOT, 'nogit_data')
 
-from src.img.container.geometry import Point, Rectangle
+from src.img.container.geometry import Point, Rectangle, landmarks_to_points
 from src.img.container.image import Image
 from src.img.processor.processor import ImgProcessor
 from src.models.source import ModelsSource
@@ -137,14 +137,6 @@ class InsightfaceLandmarksDetectorImgProcessor(ImgProcessor):
             out = np.round(out).astype(np.int)
         return out
 
-    def _rescangles_to_bbboxes(self, rectangles:[Rectangle]):
-        ret_list =[rect.as_bbox() for rect in rectangles]
-        return np.ndarray(ret_list)
-
-    def _landmarks_to_points(self, insightface_landmarks: np.ndarray)-> [Point]:
-        in_list = list(insightface_landmarks[0])
-        return [Point(x=p[0], y=p[1]) for p in in_list]
-
     def _process_body(self, img: Image = None) -> (Image, LandmarksDetectorResult):
         # all faces, potentially from different face detectors
         faces_results = img.get_results().get_results_for_processor_super_class(FaceDetectorResult)
@@ -153,7 +145,7 @@ class InsightfaceLandmarksDetectorImgProcessor(ImgProcessor):
             faces = face_result.get_rectangles()  # [Rectangle]
             for face_index, face_rectangle in enumerate(faces):
                 landmarks__from_detector = self._run(img.get_work_img_array(), np.array([face_rectangle.as_bbox()]))
-                landmarks_points = self._landmarks_to_points(landmarks__from_detector)
+                landmarks_points = landmarks_to_points(landmarks__from_detector)
                 face_landmark_couples.append(
                     FaceLandmarsks(face_result=face_result, landmarks=landmarks_points, face_index=face_index))
         return img, LandmarksDetectorResult(self, face_landmark_couples=face_landmark_couples)

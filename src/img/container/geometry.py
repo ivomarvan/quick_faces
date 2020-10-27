@@ -90,3 +90,7 @@ class Rectangle:
             left_top=Point(x=bbox[0], y=bbox[1]),
             right_bottom=Point(x=bbox[2], y=bbox[3])
         )
+
+def landmarks_to_points(landmarks: np.ndarray)-> [Point]:
+    in_list = list(landmarks[0])
+    return [Point(x=p[0], y=p[1]) for p in in_list]

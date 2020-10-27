@@ -47,22 +47,32 @@ if __name__ == "__main__":
         SquereCropImgProcessor(crop_size=s)
     ]
 
-    # ------ face detectors ---
-    from src.img.processor.face_detector.insightface_face_detector import InsightfaceFaceDetector
-    from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
-    from src.img.processor.face_detector.trivial_face_detector import TrivialFaceDetector
-    processors += [
-        InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50)),
-        # InsightfaceFaceDetector(model_name='retinaface_r50_v1', color=(0, 200, 50)),
+    device = 'cpu'  # cuda / cpu
 
-        # DlibFaceDetectorImgProcessor(color=(200, 50, 50)),
-        # TrivialFaceDetector(color=(200, 50, 50))
+    # ------ face detectors ---
+    from src.img.processor.face_detector.face_aligment import FaceAlignmentFaceDetector, FaceAlignmentFaceDetectorType
+    processors += [
+        FaceAlignmentFaceDetector(color=(0, 0, 255), detector_type=FaceAlignmentFaceDetectorType.blazeface,
+                                  device=device),
+        # InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50)),
+        # DlibFaceDetectorImgProcessor(color=(0, 200, 50)),
+        # Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
     ]
 
     # ------ landmarks ----
-    from src.img.processor.landmarks_detector.insightface_landmarks_detector import InsightfaceLandmarksDetectorImgProcessor
+    from src.img.processor.landmarks_detector.dlib_shape_predictor import DlibLandmarksDetectorImgProcessor
+    from src.img.processor.landmarks_detector.face_alignment_landmarks_detector import FaceAlignmentLandmarksDetector
+    from src.img.processor.landmarks_detector.insightface_landmarks_detector import \
+        InsightfaceLandmarksDetectorImgProcessor
+    from face_alignment.api import LandmarksType
+
     processors += [
-       InsightfaceLandmarksDetectorImgProcessor()
+        # DlibLandmarksDetectorImgProcessor('predictor_model_left_face.dat', color=(10,10,255)),
+        # DlibLandmarksDetectorImgProcessor('predictor_model_left_face.precision.dat', color=(10, 10, 255)),
+        # DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat', color=(255, 100, 100)),
+        # DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200, 200, 200)),
+        FaceAlignmentLandmarksDetector(landmarks_type=LandmarksType._2D, device=device, color=(255, 255, 255)),
+        # InsightfaceLandmarksDetectorImgProcessor(color=(0, 255, 0))
     ]
 
     # ------ markers ---
