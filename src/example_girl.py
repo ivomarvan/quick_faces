@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # ------ face detectors ---
     from src.img.processor.face_detector.face_aligment import FaceAlignmentFaceDetector, FaceAlignmentFaceDetectorType
     processors += [
-        FaceAlignmentFaceDetector(color=(0, 0, 255), detector_type=FaceAlignmentFaceDetectorType.blazeface,
+        FaceAlignmentFaceDetector(color=(50, 50, 50), detector_type=FaceAlignmentFaceDetectorType.blazeface,
                                   device=device),
         # InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50)),
         # DlibFaceDetectorImgProcessor(color=(0, 200, 50)),
@@ -71,8 +71,8 @@ if __name__ == "__main__":
         # DlibLandmarksDetectorImgProcessor('predictor_model_left_face.precision.dat', color=(10, 10, 255)),
         # DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat', color=(255, 100, 100)),
         # DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200, 200, 200)),
-        FaceAlignmentLandmarksDetector(landmarks_type=LandmarksType._2D, device=device, color=(255, 255, 255)),
-        # InsightfaceLandmarksDetectorImgProcessor(color=(0, 255, 0))
+        FaceAlignmentLandmarksDetector(landmarks_type=LandmarksType._2D, device=device, color=(255, 0, 0)),
+        InsightfaceLandmarksDetectorImgProcessor(color=(0, 255, 0))
     ]
 
     # ------ markers ---
