@@ -29,7 +29,7 @@ class TrivialFaceDetector(FaceDetector):
     def __init__(self, name: str='trivial_face_detector', find_best: bool = True, color: tuple = (100, 255, 40)):
         super().__init__(name=name, find_best=find_best, color=color)
 
-    def _process_body(self, img: Image = None) -> (Image, FaceDetectorResult):
+    def _process_image(self, img: Image = None) -> (Image, FaceDetectorResult):
         work_img_shape = img.get_work_img_array().shape
         rectangles = [Rectangle(left_top=Point(x=1, y=1), right_bottom=Point(x=work_img_shape[1] - 1, y=work_img_shape[0] - 1 ))]
         return img, FaceDetectorResult(self, rectangles=rectangles)

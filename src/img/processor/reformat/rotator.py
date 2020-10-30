@@ -12,7 +12,7 @@ import cv2
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '../..', '..', '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
@@ -42,7 +42,7 @@ class ImgRotateProcessor(ImgProcessor):
 
         return imutils.rotate_bound(img_array, self._angle)
 
-    def _process_body(self, img: Image = None) -> Image:
+    def _process_image(self, img: Image = None) -> Image:
 
         img.set_work_img_array(self._rotate(img_array=img.get_work_img_array()))
         if self._rotate_both:

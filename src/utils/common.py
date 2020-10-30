@@ -3,7 +3,7 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Common functions.
+    Param functions.
 '''
 import os
 

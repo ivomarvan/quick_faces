@@ -27,7 +27,7 @@ class DlibFaceDetectorImgProcessor(FaceDetector):
         super().__init__(name=name, find_best=find_best, color=color)
         self._detector = dlib.get_frontal_face_detector()
 
-    def _process_body(self, img: Image = None) -> (Image, FaceDetectorResult):
+    def _process_image(self, img: Image = None) -> (Image, FaceDetectorResult):
         faces = self._detector(img.get_work_img_array(), 0)
         rectangles = [Rectangle.crate_from_dlib_rectangle(dlib_rect) for dlib_rect in faces]
         return img, FaceDetectorResult(self, rectangles=rectangles)

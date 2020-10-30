@@ -11,7 +11,7 @@ import cv2
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
@@ -28,7 +28,7 @@ class ImgMarkerProcessor(ImgProcessor):
         self._resize_factor = resize_factor
         self.add_not_none_option('resize_factor', self._resize_factor)
 
-    def _process_body(self, img: Image = None) -> Image:
+    def _process_image(self, img: Image = None) -> Image:
         '''
         Face coordinates an landmarks was found in orig_img_array.
         But work_img was created by resizing of work_img_array

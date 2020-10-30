@@ -137,7 +137,7 @@ class InsightfaceLandmarksDetectorImgProcessor(ImgProcessor):
             out = np.round(out).astype(np.int)
         return out
 
-    def _process_body(self, img: Image = None) -> (Image, LandmarksDetectorResult):
+    def _process_image(self, img: Image = None) -> (Image, LandmarksDetectorResult):
         # all faces, potentially from different face detectors
         faces_results = img.get_results().get_results_for_processor_super_class(FaceDetectorResult)
         face_landmark_couples = []

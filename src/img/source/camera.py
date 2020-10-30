@@ -17,17 +17,23 @@ sys.path.append(PROJECT_ROOT)
 
 from src.img.source.base import ImgSourceBase
 from src.img.container.image import Image
+from src.img.processor.types import IntType
+
 
 class Camera(ImgSourceBase):
-
-    def __init__(self, name: str = '', range_of_camara_numbers=range(0,10)):
-        name1 = 'camera'
-        if name:
-            name1 += '.' + name
-        super().__init__(name=name1)
+    """
+    Camera input.
+    An active switched-on camera whose number is in the given range is searched for.
+    """
+    def __init__(
+            self,
+            min_camera_number: IntType('Minimal number (ID) of camera') = 0,
+            max_camera_number: IntType('Maximal number (ID) of camera') = 10,
+    ):
+        super().__init__(name='camera')
         self._capture = None
         self._is_adjusted = False
-        self._range_of_camara_numbers = range_of_camara_numbers
+        self._range_of_camara_numbers = range(min_camera_number, max_camera_number)
 
     def __del__(self):
         if not self._capture is None:

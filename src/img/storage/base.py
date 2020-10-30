@@ -33,5 +33,5 @@ class ImgStorageBase(ImgProcessor):
         '''
         raise NotImplemented(f'Do not use instance of interface: "{self.__class__.__name__}"')
 
-    def _process_body(self, img:Image = None) -> Image:
+    def _process_image(self, img:Image = None) -> Image:
         return self.store(img), ImageProcessorResult(self)

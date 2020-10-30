@@ -45,7 +45,7 @@ class DlibLandmarksDetectorImgProcessor(ImgProcessor):
         self.add_not_none_option('color', color)
         self._predictor = dlib.shape_predictor(ModelsSource.get_model_dlib_shape_predictor_filename(model_filename))
 
-    def _process_body(self, img: Image = None) -> (Image, LandmarksDetectorResult):
+    def _process_image(self, img: Image = None) -> (Image, LandmarksDetectorResult):
 
         # all faces, potentially from different face detectors
         faces_results = img.get_results().get_results_for_processor_super_class(FaceDetectorResult)

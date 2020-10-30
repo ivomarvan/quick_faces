@@ -64,7 +64,7 @@ if __name__ == "__main__":
     ]
 
     # ------ markers ---
-    from src.img.processor.marker import ImgMarkerProcessor
+    from src.img.processor.markers.marker import ImgMarkerProcessor
     processors += [
         ImgMarkerProcessor()
     ]

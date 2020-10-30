@@ -38,8 +38,7 @@ if __name__ == "__main__":
 
     # ------ preprocessors ---
     from src.img.processor.reformat.squere_crop.processor import SquereCropImgProcessor
-    from src.img.processor.reformat.rotator import ImgRotateProcessor
-    from src.img.processor.reformat.resizer import ImgResizeProcessor
+
     s = 640
     processors += [
         # ImgResizeProcessor(width=s, height=s),
@@ -49,8 +48,7 @@ if __name__ == "__main__":
 
     # ------ face detectors ---
     from src.img.processor.face_detector.insightface_face_detector import InsightfaceFaceDetector
-    from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
-    from src.img.processor.face_detector.trivial_face_detector import TrivialFaceDetector
+
     processors += [
         InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50)),
         # InsightfaceFaceDetector(model_name='retinaface_r50_v1', color=(0, 200, 50)),
@@ -66,7 +64,7 @@ if __name__ == "__main__":
     ]
 
     # ------ markers ---
-    from src.img.processor.marker import ImgMarkerProcessor
+    from src.img.processor.markers.marker import ImgMarkerProcessor
     processors += [
         ImgMarkerProcessor()
     ]

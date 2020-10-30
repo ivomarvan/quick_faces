@@ -24,7 +24,7 @@ class ImgStorageDir(ImgStorageBase):
         super().__init__('dir.' + path)
         self._path = path
 
-    def store(self, img: Image, params = None, extension: str = None) -> bool:
+    def store(self, img: Image, params=None, extension: str = None) -> bool:
         '''
         @see src.img.storage.base.ImgStorageBase.store
 

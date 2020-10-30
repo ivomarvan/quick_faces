@@ -67,7 +67,7 @@ class FaceAlignmentFaceDetector(FaceDetector):
         self._face_detector = FaceAlignmentFaceDetectorFactory.get_detector(detector_type=detector_type, device=device, verbose=verbose)
         self.add_not_none_option('type',  detector_type.name)
 
-    def _process_body(self, img: Image = None) -> (Image, FaceDetectorResult):
+    def _process_image(self, img: Image = None) -> (Image, FaceDetectorResult):
         img_array = img.get_work_img_array()
         if img_array.ndim == 2:
             img_array = color.gray2rgb(img_array.copy())

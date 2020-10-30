@@ -46,9 +46,8 @@ if __name__ == "__main__":
     device = 'cpu' # cuda / cpu
 
     # ------ face detectors ---
-    from src.img.processor.face_detector.dlib_frontal_face_detector import DlibFaceDetectorImgProcessor
     from src.img.processor.face_detector.face_aligment import FaceAlignmentFaceDetector, FaceAlignmentFaceDetectorType
-    from src.img.processor.face_detector.insightface_face_detector import InsightfaceFaceDetector
+
     processors += [
         FaceAlignmentFaceDetector(color=(0, 0, 255), detector_type=FaceAlignmentFaceDetectorType.blazeface, device=device),
         # InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50)),
@@ -57,7 +56,6 @@ if __name__ == "__main__":
     ]
 
     # ------ landmarks ----
-    from src.img.processor.landmarks_detector.dlib_shape_predictor import DlibLandmarksDetectorImgProcessor
     from src.img.processor.landmarks_detector.face_alignment_landmarks_detector import FaceAlignmentLandmarksDetector
     from src.img.processor.landmarks_detector.insightface_landmarks_detector import \
         InsightfaceLandmarksDetectorImgProcessor
@@ -72,7 +70,7 @@ if __name__ == "__main__":
     ]
 
     # ------ markers ---
-    from src.img.processor.marker import ImgMarkerProcessor
+    from src.img.processor.markers.marker import ImgMarkerProcessor
     processors += [
         ImgMarkerProcessor()
     ]

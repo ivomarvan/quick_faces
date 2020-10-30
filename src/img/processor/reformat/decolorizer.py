@@ -14,7 +14,7 @@ import imutils
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '../..', '..', '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
@@ -27,7 +27,7 @@ class ImgDecolorizeProcessor(ImgProcessor):
         super().__init__('decolorize')
         self.add_not_none_option('code', code)
 
-    def _process_body(self, img: Image = None) -> Image:
+    def _process_image(self, img: Image = None) -> Image:
         img.set_work_img_array(
             cv2.cvtColor(
                 src=img.get_work_img_array(),

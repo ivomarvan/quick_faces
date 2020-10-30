@@ -30,7 +30,7 @@ class Cv2DnnCafeeFaceDetector(FaceDetector):
         self.add_not_none_option('config', config_filename)
         self.add_not_none_option('model', model_filename)
 
-    def _process_body(self, img: Image = None) -> (Image, FaceDetectorResult):
+    def _process_image(self, img: Image = None) -> (Image, FaceDetectorResult):
         img_array = img.get_work_img_array()
         h, w = img.get_height(), img.get_width()
         blob = dnn.blobFromImage(cv2.resize(img_array, (300, 300)), 1.0, (300, 300), (104.0, 117.0, 123.0))
