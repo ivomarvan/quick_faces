@@ -17,25 +17,27 @@ sys.path.append(PROJECT_ROOT)
 from src.img.source.base import ImgSourceBase
 from src.utils.common import fwalk
 from src.img.container.image import Image
-from src.img.processor.types import IntType, DirectoryType, BoolType
+from src.img.processor.types import DirectoryType, BoolType
 
 
 class ImgSourceDir(ImgSourceBase):
     """
     Source of images.
     All images from the directory.
+    Optionally recursively.
     """
+
+    COLOR_FLAG = cv2.IMREAD_UNCHANGED
+
     def __init__(
         self,
-        path: DirectoryType(descr='path for seacrhing of images', must_exists=True),
-        recursively: BoolType(descr='search recursively?') = True,
-        color_flag: IntType(descr='opencv2.imread parameter') = cv2.IMREAD_UNCHANGED
+        path: DirectoryType(descr='path for searching of images', must_exists=True),
+        recursively: BoolType(descr='search recursively?') = True
     ):
         super().__init__('dir.' + path)
         self._path = path
         self._len_path1 = len(path) + 1
         self._recursively = recursively
-        self._color_flag = color_flag
         self._files = None
 
     def _get_file_id(self, path:str):
@@ -53,7 +55,7 @@ class ImgSourceDir(ImgSourceBase):
         '''
         try:
             id, path = next(self._get_files())
-            img = Image.read_from_file(path=path, color_flag=self._color_flag, img_id = id)
+            img = Image.read_from_file(path=path, color_flag=self.COLOR_FLAG, img_id = id)
             self.add_not_none_option('extension', Image.get_extension(path))
             return img
         except StopIteration:

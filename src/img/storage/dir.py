@@ -17,10 +17,17 @@ sys.path.append(PROJECT_ROOT)
 
 from src.img.storage.base import ImgStorageBase
 from src.img.container.image import Image
+from src.img.processor.types import DirectoryType
 
 class ImgStorageDir(ImgStorageBase):
+    """
+    File directory as storage for result images.
+    """
 
-    def __init__(self, path: str):
+    def __init__(
+        self,
+        path: DirectoryType(descr='The path for storing images.', must_exists=False),
+    ):
         super().__init__('dir.' + path)
         self._path = path
 

@@ -18,10 +18,17 @@ sys.path.append(PROJECT_ROOT)
 
 from src.img.storage.base import ImgStorageBase
 from src.img.container.image import Image
+from src.img.processor.types import StrType
 
 class ImgStorageWindow(ImgStorageBase):
+    """
+    Window for observation of image processing.
+    """
 
-    def __init__(self, name: str = ''):
+    def __init__(
+            self,
+            name: StrType(descr='Name of window') = 'Debug window.'
+    ):
         super().__init__('window.' + name)
 
     def __del__(self):

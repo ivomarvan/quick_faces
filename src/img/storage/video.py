@@ -20,10 +20,28 @@ sys.path.append(PROJECT_ROOT)
 from src.img.storage.base import ImgStorageBase
 from src.img.container.image import Image
 from moviepy.editor import VideoFileClip, concatenate_videoclips
+from src.img.processor.types import FileType, StrType, IntType
+
 
 class ImgStorageVideo(ImgStorageBase):
+    """Store result of image processing to video file"""
 
-    def __init__(self, path: str, codec='mp4v', fps: int = 30, max_images_in_one_part: int = 60*30):
+    max_images_in_one_part_descr = '''
+    Maximal count of images in one video.
+    (Because storege know nothing about source [sizes of individual images] 
+    it store it in memory and calculate size of video-frame from it.
+    And memory is limited.)
+    When the limit is reached, the results are saved in a new video file. 
+    '''
+
+    def __init__(
+            self,
+            path: FileType(descr='Path to new file. (Directory will be create authomaticaly if it does not exist.)'),
+            codec: StrType(
+                descr='Video codec. Change if you know what you are duing. See https://www.fourcc.org/codecs.php fo codecs.') = 'mp4v',
+            fps: IntType(descr='Count of frames per second (1-very slow, 25-normal, ....)') = 30,
+            max_images_in_one_part: IntType(descr=max_images_in_one_part_descr) = 60 * 30
+    ):
         super().__init__('dir.' + path)
         self.add_not_none_option('out', path)
         self.add_not_none_option('fps', fps)
@@ -36,10 +54,9 @@ class ImgStorageVideo(ImgStorageBase):
         self._video_parts = []
         self._fourcc = cv2.VideoWriter_fourcc(*self._codec)
 
-
     def __del__(self):
         '''
-        Store all temoraly tored images images
+        Store all temporally stored images images
         '''
         if self._images:
             self._store_one_part()
@@ -49,7 +66,6 @@ class ImgStorageVideo(ImgStorageBase):
         final_clip.write_videofile(self._path)
         for path in self._video_parts:
             os.remove(path)
-
 
     def _get_tmp_filename(self):
         name_parts = self._path.split('.')
@@ -90,4 +106,3 @@ class ImgStorageVideo(ImgStorageBase):
         if len(self._images) >= self._max_images_in_one_part:
             self._store_one_part()
         return img
-
