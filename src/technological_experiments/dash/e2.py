@@ -84,4 +84,4 @@ def on_data_set_graph(data, field):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, threaded=True, port=10450)
+    app.run_server(debug=False, threaded=True, port=10450)

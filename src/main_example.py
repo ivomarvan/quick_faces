@@ -16,7 +16,7 @@ sys.path.append(PROJECT_ROOT)
 
 if __name__ == "__main__":
     # --- sources ---
-    from src.img.source.configurable import ConfigurableImgSource
+    from src.img.processor.source.configurable import ConfigurableImgSource
     # Only one parametr can be set
     source = ConfigurableImgSource(
         range_of_camara_numbers=range(0,10),
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     )
 
     # --- storages ---
-    from src.img.storage.configurable import ConfigurableImgStorage
+    from src.img.processor.storage.configurable import ConfigurableImgStorage
     # You can comment a parametr if you do not use a storage
     storage = ConfigurableImgStorage(
         # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     device = 'cpu' # cuda / cpu
 
     # ------ face detectors ---
-    from src.img.processor.face_detector.face_aligment import FaceAlignmentFaceDetector, FaceAlignmentFaceDetectorType
+    from src.img.processor.faces.face_detector.face_aligment import FaceAlignmentFaceDetector, FaceAlignmentFaceDetectorType
 
     processors += [
         FaceAlignmentFaceDetector(color=(0, 0, 255), detector_type=FaceAlignmentFaceDetectorType.blazeface, device=device),
@@ -56,8 +56,8 @@ if __name__ == "__main__":
     ]
 
     # ------ landmarks ----
-    from src.img.processor.landmarks_detector.face_alignment_landmarks_detector import FaceAlignmentLandmarksDetector
-    from src.img.processor.landmarks_detector.insightface_landmarks_detector import \
+    from src.img.processor.faces.landmarks_detector.face_alignment_landmarks_detector import FaceAlignmentLandmarksDetector
+    from src.img.processor.faces.landmarks_detector.insightface_landmarks_detector import \
         InsightfaceLandmarksDetectorImgProcessor
     from face_alignment.api import LandmarksType
     processors += [
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     ]
 
     # ------ markers ---
-    from src.img.processor.markers.marker import ImgMarkerProcessor
+    from src.img.processor.faces.markers.marker import ImgMarkerProcessor
     processors += [
         ImgMarkerProcessor()
     ]

@@ -13,8 +13,8 @@ THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
-from src.img.source.base import ImgSourceBase
-from src.img.storage.base import ImgStorageBase
+from src.img.processor.source.base import ImgSourceBase
+from src.img.processor.storage.base import ImgStorageBase
 from src.img.processor.processor import ImgProcessor
 from src.utils.timeit_stats import TimeStatistics
 

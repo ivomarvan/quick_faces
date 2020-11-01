@@ -11,6 +11,13 @@ import sys
 import inspect
 
 
+def get_module(o):
+    module = o.__class__.__module__
+    if module is None or module == str.__class__.__module__:
+        return o.__class__.__name__  # Avoid reporting __builtin__
+    else:
+        return module
+
 def is_builtin_class_instance(obj):
     '''
     @credit https://stackoverflow.com/questions/1322068/determine-if-python-variable-is-an-instance-of-a-built-in-type
@@ -46,17 +53,11 @@ class DictStorable(AutomaticPropertiesFromConstructor):
     Parameters of a constructor can be stored as dictionary (json) and restored back later.
     """
 
-    @staticmethod
-    def get_module(o):
-        module = o.__class__.__module__
-        if module is None or module == str.__class__.__module__:
-            return o.__class__.__name__  # Avoid reporting __builtin__
-        else:
-            return module
+    
 
     def to_dict(self, store_description: bool = True, use_system_types: bool = False) -> dict:
         ret = {}
-        ret['module'] = self.get_module(self)
+        ret['module'] = get_module(self)
         ret['class'] = self.__class__.__name__
         if store_description:
             ret['description'] = inspect.getdoc(self)

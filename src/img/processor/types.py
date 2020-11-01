@@ -115,7 +115,7 @@ class FileType(Type):
         return True
 
 
-class VideoFileType(Type):
+class VideoFileType(FileType):
     """ File wir video """
 
     def is_valid(self, value) -> 'True | str':

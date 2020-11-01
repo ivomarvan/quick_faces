@@ -6,7 +6,7 @@ THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '../../img', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
-from src.img.processor.face_detector.insightface_face_detector import InsightfaceFaceDetector
+from src.img.processor.faces.face_detector.insightface_face_detector import InsightfaceFaceDetector
 from src.img.processor.types import DictStorable
 
 o = InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50))

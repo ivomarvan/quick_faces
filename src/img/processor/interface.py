@@ -8,15 +8,13 @@ __description__ = '''
 '''
 import sys
 import os
-import time
-from typing import Any
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
-from src.img.processor.params.params import Param
+from src.img.params import Param
 from src.img.container.image import Image
 from src.img.container.result import ImageProcessorResult
 
