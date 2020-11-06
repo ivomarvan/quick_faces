@@ -25,6 +25,9 @@ class Point:
     def __str__(self):
         return f'Point(x={self.x()}, y={self.y()})'
 
+    def as_tuple(self):
+        return (self.x(), self.y())
+
 class Rectangle:
 
     def __init__(self, left_top: Point, right_bottom:Point):
