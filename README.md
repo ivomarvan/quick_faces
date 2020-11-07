@@ -12,6 +12,8 @@ The idea is to choose for your own experiment:
 2) any of the **outputs** (directory, video, a window on the screen)
 3) any of the **processors** (programs) or a combination of them that will process the images
 
+<img src="doc/process.jpg"></img>
+
 ## Debugging
 
 For each process, **the processing time is recorded**, both for individual images and as a whole as **statistics** for the entire process.
