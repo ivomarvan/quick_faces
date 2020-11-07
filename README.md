@@ -12,7 +12,7 @@ The idea is to choose for your own experiment:
 2) any of the **outputs** (directory, video, a window on the screen)
 3) any of the **processors** (programs) or a combination of them that will process the images
 
-####Image loop
+###Image loop
 <img src="doc/process.jpg"></img>
 
 The **Image** container goes through a sequence of processors. It contains: 
