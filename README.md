@@ -21,7 +21,7 @@ The **Image** container goes through a sequence of processors. It contains:
 * results from individual processors (eg where is face) and information about process time for each processor.
 * (also in the future, several previous images for tracking processors)
 
-### How image processors works
+### How image processors work
 The main idea is to unify the various implementations of image processors by wrapping themselves in a single interface. 
 And the same goes for the results that these processors return.
 
