@@ -16,13 +16,15 @@ sys.path.append(PROJECT_ROOT)
 
 if __name__ == "__main__":
     # --- sources ---
-    from src.img.processor.source.configurable import ConfigurableImgSource
     # Only one parametr can be set
-    source = ConfigurableImgSource(
-        # range_of_camara_numbers=range(0,10),
-        # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'),
-        path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV')
-    )
+    from src.img.processor.source.camera import Camera
+    from src.img.processor.source.video import ImgSourceVideo
+    from src.img.processor.source.dir import ImgSourceDir
+
+    # Only one parametr can be set
+    # source = Camera(range_of_camera_ids=range(0, 10))
+    # source = ImgSourceDir(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_img'))
+    source = ImgSourceVideo(path=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/in_video/IMG_8339.MOV'))
 
     # --- storages ---
     from src.img.processor.storage.configurable import ConfigurableImgStorage
@@ -64,7 +66,7 @@ if __name__ == "__main__":
     ]
 
     # ------ markers ---
-    from src.img.processor.faces.markers.marker import ImgMarkerProcessor
+    from src.img.processor.faces.marker import ImgMarkerProcessor
     processors += [
         ImgMarkerProcessor()
     ]

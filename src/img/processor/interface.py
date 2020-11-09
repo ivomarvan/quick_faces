@@ -27,7 +27,7 @@ class ImgProcessorInterface:
         Return all required parameter.
         The parameters will be fulfilled by values (potentially by GUI) and used to setup img. processor.
         '''
-        raise NotImplemented(f'Do not use instance of interface: "{cls.__class__.__name__}"')
+        raise NotImplementedError(f'Do not use instance of interface: "{cls.__class__.__name__}"')
 
     def _process_image(self, img: Image = None) -> (Image, ImageProcessorResult):
         '''
@@ -36,11 +36,11 @@ class ImgProcessorInterface:
         Returns processed image and some result (like face boxess, landmarks and so.).
         Result is a successor of ImageProcessorResult.
         '''
-        raise NotImplemented(f'Do not use instance of interface: "{self.__class__.__name__}"')
+        raise NotImplementedError(f'Do not use instance of interface: "{self.__class__.__name__}"')
 
 
     def get_markup_description(self) -> str:
         '''
         Returns descripton of rocessor in markup language (plain text with som formatting possibilities).
         '''
-        raise NotImplemented(f'Do not use instance of interface: "{self.__class__.__name__}"')
+        raise NotImplementedError(f'Do not use instance of interface: "{self.__class__.__name__}"')

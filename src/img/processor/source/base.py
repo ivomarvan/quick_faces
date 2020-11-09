@@ -35,7 +35,7 @@ class ImgSourceBase(ImgProcessor):
 
         Returns Image container.
         '''
-        raise NotImplemented(f'Do not use instance of interface: "{self.__class__.__name__}"')
+        raise NotImplementedError(f'Do not use instance of interface: "{self.__class__.__name__}"')
 
     def _process_image(self, img:Image = None) -> Image:
         return self.get_next_image(), ImageProcessorResult(self)

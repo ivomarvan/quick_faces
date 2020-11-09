@@ -18,6 +18,7 @@ sys.path.append(PROJECT_ROOT)
 from src.img.processor.source.base import ImgSourceBase
 from src.img.container.image import Image
 from src.img.processor.types import IntType
+from src.img.container.result import ImageProcessorResult
 
 
 class Camera(ImgSourceBase):
@@ -27,13 +28,12 @@ class Camera(ImgSourceBase):
     """
     def __init__(
             self,
-            min_camera_number: IntType('Minimal number (ID) of camera') = 0,
-            max_camera_number: IntType('Maximal number (ID) of camera') = 10,
+            range_of_camera_ids: range
     ):
         super().__init__(name='camera')
         self._capture = None
         self._is_adjusted = False
-        self._range_of_camara_numbers = range(min_camera_number, max_camera_number)
+        self._range_of_camera_ids = range_of_camera_ids
 
     def __del__(self):
         if not self._capture is None:
@@ -55,7 +55,7 @@ class Camera(ImgSourceBase):
         return True
 
     def _adjust_and_return_img(self) -> (np.ndarray, int):
-        for i in self._range_of_camara_numbers:
+        for i in self._range_of_camera_ids:
             try:
                 self._capture = cv2.VideoCapture(i)
             except Exception as e:
@@ -88,5 +88,6 @@ class Camera(ImgSourceBase):
         else:
             return None
 
-
+    def _process_image(self, img: Image = None) -> (Image, ImageProcessorResult):
+        return self.get_next_image(), ImageProcessorResult(self)
 

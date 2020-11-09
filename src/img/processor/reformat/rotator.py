@@ -42,7 +42,7 @@ class ImgRotateProcessor(ImgProcessor):
 
         return imutils.rotate_bound(img_array, self._angle)
 
-    def _process_image(self, img: Image = None) -> Image:
+    def _process_image(self, img: Image = None) -> (Image, ImageProcessorResult):
 
         img.set_work_img_array(self._rotate(img_array=img.get_work_img_array()))
         if self._rotate_both:

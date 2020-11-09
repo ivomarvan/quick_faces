@@ -3,7 +3,7 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Img processor for writing tags to image.
+    Img processor for writing numbers of landmarks.
 '''
 import sys
 import os
@@ -11,24 +11,28 @@ import cv2
 
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '../..', '..', '..', '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '../../..', '..', '..'))
 sys.path.append(PROJECT_ROOT)
 
 from src.img.container.image import Image
 from src.img.container.result import ImageProcessorResult
 from src.img.processor.processor import ImgProcessor
-from src.img.processor.faces.landmarks_detector.result import LandmarksDetectorResult
-from src.img.processor.faces.face_detector.result import FaceDetectorResult
+from src.img.processor.landmarks_detector.result import LandmarksDetectorResult, FaceLandmarsks
+from src.img.processor.face_detector.result import FaceDetectorResult
 from src.img.processor.reformat.squere_crop.result import SquereCropResult
 
-class ImgMarkerProcessor(ImgProcessor):
+class LandmarkNumbersImgProcessor(ImgProcessor):
+
+    FONT_SCALE = 0.4
+    FONT = cv2.FONT_HERSHEY_SIMPLEX  # FONT_HERSHEY_PLAIN
+    THICKNESS = 1
 
     def __init__(self, resize_factor: (int, int) = (1,1)):
-        super().__init__('marker')
+        super().__init__('add_numers_for_landmarks')
         self._resize_factor = resize_factor
         self.add_not_none_option('resize_factor', self._resize_factor)
 
-    def _process_image(self, img: Image = None) -> (Image, ImageProcessorResult):
+    def _process_image(self, img: Image = None) -> (Image, FaceDetectorResult):
         '''
         Face coordinates an landmarks was found in orig_img_array.
         But work_img was created by resizing of work_img_array
@@ -58,23 +62,8 @@ class ImgMarkerProcessor(ImgProcessor):
         def r_y(y: int) -> int:
             return int(round(my * y, 0))
 
-        faces_results = img.get_results().get_results_for_processor_super_class(FaceDetectorResult)
-        for face_result in faces_results:
-            face_color = face_result.get_processor().get_option('color')
-            for face_rectangle in face_result.get_rectangles():
-                # draw face
-                l_t = face_rectangle.left_top()
-                x1 = l_t.x()
-                y1 = l_t.y()
-                r_b = face_rectangle.right_bottom()
-                x2 = r_b.x()
-                y2 = r_b.y()
-                pt1 = (r_x(x1), r_y(y1))
-                pt2 = (r_x(x2), r_y(y2))
-                try:
-                    cv2.rectangle(img=orig_img_array, pt1=pt1, pt2=pt2, color=face_color, thickness=2)
-                except Exception as e:
-                    print('!' * 5, e)
+            # get the width and height of the text box
+
 
 
         landmark_results = img.get_results().get_results_for_processor_super_class(LandmarksDetectorResult)  # [FaceLandmarsks]
@@ -86,12 +75,23 @@ class ImgMarkerProcessor(ImgProcessor):
                 face_color = face_result.get_processor().get_option('color')
 
                 # draw landmarks
-                for landmark_point in landmarks:
+                print('*******', len(landmarks))
+                for i, landmark_point in enumerate(landmarks):
                     x, y = landmark_point.x(), landmark_point.y()
                     try:
-                        cv2.circle(orig_img_array, (r_x(x), r_y(y)), 1, face_color, 2)
-                        cv2.circle(orig_img_array, (r_x(x), r_y(y)), 2, landmarks_color, -1)
+                        text = str(i)
+                        # cv2.getTextSize(text, self.FONT, fontScale=self.FONT_SCALE, thickness=self.THICKNESS)[0]
+                        (text_width, text_height) = cv2.getTextSize(text,  fontFace=self.FONT, fontScale=self.FONT_SCALE, thickness=self.THICKNESS)[0]
+                        #                         # set the text start position
+                        text_offset_x = max(0, r_x(x))
+                        text_offset_y = r_y(y) - int(text_height / 2)
+                        cv2.putText(
+                            orig_img_array, text, (text_offset_x, text_offset_y), self.FONT, fontScale=self.FONT_SCALE,
+                            color=landmarks_color, thickness=self.THICKNESS
+                        )
+
                     except Exception as e:
+                        raise e
                         print('$' * 5, e)
 
         return img, ImageProcessorResult(self)

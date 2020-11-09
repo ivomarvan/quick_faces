@@ -42,7 +42,7 @@ class SquereCropImgProcessor(ImgProcessor):
         det_im[:resized_im.shape[0], :resized_im.shape[1], :] = resized_im
         return det_im, scale
 
-    def _process_image(self, img: Image = None) -> Image:
+    def _process_image(self, img: Image = None) -> (Image, ImageProcessorResult):
         new_work_array, img_scale = self._square_crop(img.get_work_img_array())
         img.set_orig_img_array(new_work_array)
         return img, SquereCropResult(processor=self, img_scale=img_scale)

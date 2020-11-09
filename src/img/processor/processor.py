@@ -36,7 +36,7 @@ class ImgProcessor(DictStorable):
         Returns processed image and some result (like face boxess, landmarks and so.).
         Result is a successor of ImageProcessorResult.
         '''
-        raise NotImplemented(f'Do not use instance of interface: "{self.__class__.__name__}"')
+        raise NotImplementedError(f'Do not use instance of interface: "{self.__class__.__name__}"')
 
     def get_name(self):
         return self._name

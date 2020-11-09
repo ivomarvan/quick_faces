@@ -12,6 +12,40 @@ The idea is to choose for your own experiment:
 2) any of the **outputs** (directory, video, a window on the screen)
 3) any of the **processors** (programs) or a combination of them that will process the images
 
+### Image loop
+<img src="doc/process.jpg"></img>
+
+The **Image** container goes through a sequence of processors. It contains: 
+* the original image (for displaying results), 
+* the copy image (for auxiliary transformations, eg resizing), 
+* results from individual processors (eg where is face) and information about process time for each processor.
+* (also in the future, several previous images for tracking processors)
+
+### How image processors work
+The main idea is to unify the various implementations of image processors by wrapping themselves in a single interface. 
+And the same goes for the results that these processors return.
+
+Each processor must be a successor to the object
+```python
+ImgProcessor
+```
+and implement the method
+```python
+def _process_image(self, img: Image = None) -> (Image, FaceDetectorResult):
+```
+The result (which is automatically inserted into the Image container) must be the successor of the
+```python
+ImageProcessorResult
+```
+
+This allows you to combine different libraries. For example, you choose a face detector from one library and 
+a landmarks face detector from another. 
+Thanks to the unified interface, everything will work well.
+
+See the implementation of the **ImgMarkerProcessor** object for an example of **how to get results from processors** 
+that previously processed the image. Here it is a list of faces and their associated landmarks 
+(from two processors - face detector and landmarks detector).
+
 ## Debugging
 
 For each process, **the processing time is recorded**, both for individual images and as a whole as **statistics** for the entire process.
@@ -43,8 +77,7 @@ I am using **conda** environment with **python 3.8.**
 For _insightface_ library is important the library **mxnet** in version **1.6.0.** 
 (see https://github.com/deepinsight/insightface for details).
 
-See file **requirements.conda.txt** for all details about my environment.
-
+Each processor can use different libraries (mxnet, pytorch, tensorflow, ...). It depends on which processor you choose for your experiment.
 
 ## Usage
 For now, just modify main_example.py and run it:

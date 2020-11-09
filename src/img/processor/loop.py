@@ -36,7 +36,7 @@ class ImgLoop:
         while not stop:
             try:
                 # source
-                img = self._img_source.process()
+                img = self._img_source.process(img=None)
 
                 if img is None:
                     raise StopIteration()
