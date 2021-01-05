@@ -36,7 +36,7 @@ class IsOpenMarkerImgProcessor(ImgProcessor):
         self.add_not_none_option('resize_factor', self._resize_factor)
 
 
-    def _draw_indicator(self, start_y: int,  img: np.array, is_open_result: IsOpenResult) -> int:
+    def _draw_indicator(self, start_y: int,  img: np.array, is_open_result: IsOpenResult, name: str) -> int:
         '''
         Draw rectangle with open result
         '''
@@ -46,6 +46,14 @@ class IsOpenMarkerImgProcessor(ImgProcessor):
         if np.isnan(is_open_result.open_percents):
             # before calibration
             return start_y
+
+        color = (10, 15, 20)
+        (text_width, text_height) = cv2.getTextSize(name, fontFace=self.FONT, fontScale=self.FONT_SCALE, thickness=self.THICKNESS)[0]
+        cv2.putText(
+            img, name, (shift_x, start_y + text_height), self.FONT, fontScale=self.FONT_SCALE, color=color, thickness=self.THICKNESS
+        )
+        start_y += 5 + text_height
+
         color = (255, 255, 255)
         height = int((100 - is_open_result.open_percents) * self.INDICATOR_HEIGHT / 100)
         points = np.array( [[
@@ -112,25 +120,28 @@ class IsOpenMarkerImgProcessor(ImgProcessor):
 
         is_open_results = img.get_results().get_results_for_processor_super_class(IsOpenResult)
         start_y = 0
-        for is_open_result in is_open_results:
+        for i, is_open_result in enumerate(is_open_results):
             face_landmarks = is_open_result.face_landmarks  # FaceLandmarsks
             try:
+                result_short_name = is_open_result.get_processor().get_name().split('.')[-2]
                 lt = face_landmarks.get_actual_face().left_top()
                 face_result = face_landmarks.get_face_result()  # FaceDetectorResult:
                 face_processor = face_result.get_processor()
                 face_color = face_processor.get_option('color')
                 if not face_color:
                     face_color = self.DEFAULT_COLOR
-                text = f'{round(is_open_result.rate, 2)}, {round(is_open_result.open_percents, 2)} %, open={is_open_result.is_open}'
+                text = f'{result_short_name:15}: {round(is_open_result.rate, 2)}, {round(is_open_result.open_percents, 2)} %, open={is_open_result.is_open}'
                 (text_width, text_height) = cv2.getTextSize(text,  fontFace=self.FONT, fontScale=self.FONT_SCALE, thickness=self.THICKNESS)[0]
                 # set the text start position
                 text_offset_x = int(max(0, r_x(lt.x())))
-                text_offset_y = int(max(0, r_y(lt.y()) - text_height))
+                text_offset_y = int(max(0, r_y(lt.y()) - ((i + 1) * (text_height + 5))))
                 cv2.putText(
                     orig_img_array, text, (text_offset_x, text_offset_y), self.FONT, fontScale=self.FONT_SCALE,
                     color=face_color, thickness=self.THICKNESS
                 )
-                start_y += self._draw_indicator(start_y=start_y, img=orig_img_array, is_open_result=is_open_result)
+                start_y = self._draw_indicator(
+                    start_y=start_y, img=orig_img_array, is_open_result=is_open_result, name=result_short_name
+                )
 
             except Exception as e:
                 raise e

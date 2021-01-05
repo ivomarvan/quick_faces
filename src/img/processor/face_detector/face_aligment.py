@@ -74,10 +74,13 @@ class FaceAlignmentFaceDetector(FaceDetector):
         elif img_array.ndim == 4:
             img_array = img_array.copy()[..., :3]
         bboxes = self._face_detector.detect_from_image(img_array[..., ::-1])
-        if (not self._get_all) and (bboxes.shape[0] != 0):
-            # select one with max trust
-            bboxes = [bboxes[np.argmax(np.array(bboxes)[:,4])]]
-        faces_rectangles = [Rectangle.from_bbox(bbox) for bbox in bboxes]
+        if bboxes == []:
+            faces_rectangles = []
+        else:
+            if (not self._get_all) and (bboxes.shape[0] != 0):
+                # select one with max trust
+                bboxes = [bboxes[np.argmax(np.array(bboxes)[:,4])]]
+            faces_rectangles = [Rectangle.from_bbox(bbox) for bbox in bboxes]
 
         #print(f'{faces_rectangles}')
         return img, FaceDetectorResult(self, rectangles=faces_rectangles)
