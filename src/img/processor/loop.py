@@ -54,7 +54,7 @@ class ImgLoop:
                 else:
                     if i % 80 == 0:
                         sys.stdout.write('\n')
-                    sys.stdout.write('img/experiments')
+                    sys.stdout.write('.')
                     sys.stdout.flush()
                 i += 1
             except StopIteration:

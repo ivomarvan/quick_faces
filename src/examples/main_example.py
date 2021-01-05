@@ -33,7 +33,7 @@ if __name__ == "__main__":
         # path_to_images=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_img'),
         # path_to_video=os.path.join(PROJECT_ROOT, 'nogit_data/from_herman/out_video/video.mp4'),
         window_name='Debug Window',
-        video_fps=2  # parameter only for video, Frames Per Second
+        video_fps=25  # parameter only for video, Frames Per Second
     )
 
     # --- processors ---
@@ -70,9 +70,13 @@ if __name__ == "__main__":
     ]
 
     # ------ evaluation ---
-    from src.img.processor.faces.evaluation.is_open import IsOpenImgProcessor, InsightfaceMouthIsOpenManager
+    from src.img.processor.faces.evaluation.is_open import IsOpenImgProcessor, \
+        InsightfaceMouthIsOpenManager, InsightfaceLeftEyeIsOpenManager, InsightfaceRightEyeIsOpenManager
+    threshold_percents=25
     processors += [
-        IsOpenImgProcessor(is_open_manager=InsightfaceMouthIsOpenManager(calibration_mode=True))
+        IsOpenImgProcessor(is_open_manager=InsightfaceMouthIsOpenManager(calibration_mode=True)),
+        IsOpenImgProcessor(is_open_manager=InsightfaceLeftEyeIsOpenManager(calibration_mode=True, threshold_percents=threshold_percents)),
+        IsOpenImgProcessor(is_open_manager=InsightfaceRightEyeIsOpenManager(calibration_mode=True, threshold_percents=threshold_percents)),
     ]
 
     # ------ markers ---
