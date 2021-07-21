@@ -48,35 +48,28 @@ if __name__ == "__main__":
     device = 'cpu' # cuda / cpu
 
     # ------ face detectors ---
-    from src.img.processor.faces.face_detector.face_aligment import FaceAlignmentFaceDetector, FaceAlignmentFaceDetectorType
+    from src.img.processor.faces.face_detector.face_aligment import FaceAlignmentFaceDetector, \
+        FaceAlignmentFaceDetectorType
+
     processors += [
-        FaceAlignmentFaceDetector(color=(0, 0, 255), detector_type=FaceAlignmentFaceDetectorType.blazeface, device=device, find_best=True),
-        #InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50)),
+        FaceAlignmentFaceDetector(color=(0, 0, 255), detector_type=FaceAlignmentFaceDetectorType.blazeface,
+                                  device=device, find_best=True),
+        # InsightfaceFaceDetector(model_name='retinaface_mnet025_v2', color=(0, 200, 50)),
         # DlibFaceDetectorImgProcessor(color=(0, 200, 50)),
         # Cv2DnnCafeeFaceDetector(color=(255, 10, 10))
     ]
 
     # ------ landmarks ----
-    from src.img.processor.faces.landmarks_detector.insightface_landmarks_detector import InsightfaceLandmarksDetectorImgProcessor
+    from src.img.processor.faces.landmarks_detector.insightface_landmarks_detector import \
+        InsightfaceLandmarksDetectorImgProcessor
+    from src.img.processor.faces.landmarks_detector.mediapipe_landmarks_detector import MediapipeLandmarksDetectorImgProcessor
 
     processors += [
-        # DlibLandmarksDetectorImgProcessor('predictor_model_left_face.dat', color=(10,10,255)),
-        #DlibLandmarksDetectorImgProcessor('predictor_model_left_face.precision.dat', color=(10, 10, 255)),
-        #DlibLandmarksDetectorImgProcessor('predictor_model_right_face.dat', color=(255, 100, 100)),
-        # DlibLandmarksDetectorImgProcessor('shape_predictor_68_face_landmarks.dat', color=(200, 200, 200)),
-        # FaceAlignmentLandmarksDetector(landmarks_type=LandmarksType._2D, device=device, color=(0, 255, 0)),
-        InsightfaceLandmarksDetectorImgProcessor(color=(0,255,255))
+        InsightfaceLandmarksDetectorImgProcessor(color=(0, 255, 255)),
+        MediapipeLandmarksDetectorImgProcessor(quick_faces_color=(255,0,0))  # quick_faces_color=(255,0,0)
     ]
 
     # ------ evaluation ---
-    from src.img.processor.faces.evaluation.is_open import \
-        IsOpenImgProcessor, InsightfaceMouthIsOpenManager, InsightfaceLeftEyeIsOpenManager, InsightfaceRightEyeIsOpenManager
-    threshold_percents=25
-    processors += [
-        IsOpenImgProcessor(is_open_manager=InsightfaceMouthIsOpenManager(calibration_mode=True)),
-        IsOpenImgProcessor(is_open_manager=InsightfaceLeftEyeIsOpenManager(calibration_mode=True, threshold_percents=threshold_percents)),
-        IsOpenImgProcessor(is_open_manager=InsightfaceRightEyeIsOpenManager(calibration_mode=True, threshold_percents=threshold_percents)),
-    ]
 
     # ------ markers ---
     from src.img.processor.faces.marker.marker import ImgMarkerProcessor
