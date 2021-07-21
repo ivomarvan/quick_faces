@@ -77,6 +77,10 @@ class LandmarkNumbersImgProcessor(ImgProcessor):
                 # draw landmarks
                 print('*******', len(landmarks))
                 for i, landmark_point in enumerate(landmarks):
+                    '''
+                    if i % 2 == 0: 
+                        continue
+                    '''
                     x, y = landmark_point.x(), landmark_point.y()
                     try:
                         text = str(i)
