@@ -53,8 +53,6 @@ class DictStorable(AutomaticPropertiesFromConstructor):
     Parameters of a constructor can be stored as dictionary (json) and restored back later.
     """
 
-    
-
     def to_dict(self, store_description: bool = True, use_system_types: bool = False) -> dict:
         ret = {}
         ret['module'] = get_module(self)
