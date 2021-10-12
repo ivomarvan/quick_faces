@@ -10,6 +10,8 @@ import os
 
 
 # root of project repository
+from mediapipe.python.solutions.pose import Pose
+
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..', '..'))
 sys.path.append(PROJECT_ROOT)
@@ -56,20 +58,19 @@ if __name__ == "__main__":
 
     from src.img.processor.media_pipe.media_pipe_processor import MediaPipeProcessor, MediaPipeMarker
 
-    face_solution = FaceMeshSolution()
-    hands_solution = HandsSolution()
-
-    processors += [
-        MediaPipeProcessor(face_solution),
-        MediaPipeProcessor(hands_solution)
+    solutions = [
+        FaceMeshSolution(),
+        HandsSolution(),
+        # PoseSolutions(),
+        # HolisticSolutions(),
+        # SelfieSegmentationSolution(),
     ]
+
+    processors += [MediaPipeProcessor(solution) for solution in solutions]
 
 
     # ------ markers ---
-    processors += [
-        MediaPipeMarker(face_solution),
-        MediaPipeMarker(hands_solution)
-    ]
+    processors += [MediaPipeMarker(solution) for solution in solutions]
 
     # --- image process loop --
     from src.img.processor.loop import ImgLoop
