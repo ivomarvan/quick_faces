@@ -38,8 +38,16 @@ class MediapipeLandmarksDetectorImgProcessor(ImgProcessor):
 
     def __init__(
         self,
+        max_num_faces: float = 5,
+        # Minimum confidence value ([0.0, 1.0]) from the face detection model for the detection to be considered successful.
+        min_detection_confidence: float =0.5,
+        # Minimum confidence value ([0.0, 1.0]) from the landmark-tracking model for the face landmarks to be considered
+        # tracked successfully, or otherwise face detection will be invoked automatically on the next input image.
+        # Setting it to a higher value can increase robustness of the solution, at the expense of a higher latency.
+        # Ignored if static_image_mode is true, where face detection simply runs on every image.
+        min_tracking_confidence: float=0.5,
         quick_faces_color: tuple = COLOR,
-        static_image_mode: bool = True,
+        static_image_mode: bool = False,
         draw_mediapipe_way_color: tuple = COLOR  # or None for no drawing
     ):
         super().__init__(f'Mediapipe.landmarks_predictor')
@@ -51,7 +59,12 @@ class MediapipeLandmarksDetectorImgProcessor(ImgProcessor):
             self._circleDrawingSpec = drawingModule.DrawingSpec(thickness=1, circle_radius=1, color=draw_mediapipe_way_color)
             self._lineDrawingSpec = drawingModule.DrawingSpec(thickness=1, color=draw_mediapipe_way_color)
 
-        self._detector = faceModule.FaceMesh(static_image_mode=static_image_mode)
+        self._detector = faceModule.FaceMesh(
+            static_image_mode=static_image_mode,
+            max_num_faces=max_num_faces,
+            min_detection_confidence=min_detection_confidence,
+            min_tracking_confidence=min_tracking_confidence
+        )
 
     def _landmarks_to_points(self, landmarks: dict) -> [Point]:
         return [Point(x=l[0], y=l[1]) for key, l in landmarks.items()]
@@ -74,6 +87,7 @@ class MediapipeLandmarksDetectorImgProcessor(ImgProcessor):
     def _process_image(self, img: Image = None) -> (Image, LandmarksDetectorResult):
         work_img = img.get_work_img_array()
         face_landmark_couples = []
+
         results = self._detector.process(cv2.cvtColor(work_img, cv2.COLOR_BGR2RGB))
 
         rectangles = []

@@ -12,10 +12,11 @@ img_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '
 print(img_path)
 
 
-with faceModule.FaceMesh(static_image_mode=True) as face:
+with faceModule.FaceMesh(static_image_mode=False, min_detection_confidence=0.95) as face:
     image = cv2.imread(img_path)
 
-    results = face.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    rgb_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    results = face.process(rgb_img)
 
     if results.multi_face_landmarks != None:
         for faceLandmarks in results.multi_face_landmarks:
