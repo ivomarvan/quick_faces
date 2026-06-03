@@ -4,6 +4,16 @@ It is a **framework for experiments with computer vision** algorithms.
 
 It is designed for working with faces but can be used for other types of tasks.
 
+🛑 DEPRECATED / NO LONGER MAINTAINED
+
+This project is **no longer actively maintained or developed**. The repository is kept here for archival purposes. Feel free to fork the project if you wish to continue development on your own.
+
+At the time of its inception, the project's goal was to test various algorithms, especially for recognizing the movement of faces, hands, and similar motions.
+The author concluded that is "good enough".
+See
+- [MediaPipe Solutions](https://ai.google.dev/edge/mediapipe/solutions/guide)
+- [MediaPipe github](https://github.com/google-ai-edge/mediapipe)
+
 ## Licence
 **MIT**
 ## Idea

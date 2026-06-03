@@ -29,7 +29,7 @@ networkx=2.5=pypi_0
 numpy=1.19.2=pypi_0
 opencv-python=4.4.0.44=pypi_0
 openssl=1.1.1h=h7b6447c_0
-pillow=7.2.0=pypi_0
+pillow=8.1.0=pypi_0
 pip=20.2.3=py38_0
 proglog=0.1.9=pypi_0
 pyparsing=2.4.7=pypi_0
